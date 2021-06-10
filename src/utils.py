@@ -4,6 +4,7 @@ import torch
 import numpy as np
 
 def load_data(props=[0.7, 0.15, 0.15], seed=42):
+    torch.manual_seed(seed)
     # Data location
     project_dir = project_dir = Path(__file__).resolve().parents[1]
     data_dir = str(project_dir) + '/data/'
@@ -16,7 +17,7 @@ def load_data(props=[0.7, 0.15, 0.15], seed=42):
         use_edge_attr=True)
     
     # Shuffle
-    torch.manual_seed(seed)
+    dataset.shuffle()
 
     # Split data
     split_idx = np.cumsum([int(len(dataset)*prop) for prop in props])
