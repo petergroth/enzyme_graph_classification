@@ -16,8 +16,6 @@ def main(output_filepath):
         use_node_attr=True,
         use_edge_attr=True)
 
-    dataset = TUDataset(root=str(path)+'/data', name='ENZYMES', use_node_attr=True)
-
 
 if __name__ == '__main__':
     log_fmt = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
