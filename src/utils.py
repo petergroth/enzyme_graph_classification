@@ -27,5 +27,3 @@ def load_data(props=[0.7, 0.15, 0.15], seed=42):
 
     return data_train, data_val, data_test
     
-if __name__ == '__main__':
-    load_data()
