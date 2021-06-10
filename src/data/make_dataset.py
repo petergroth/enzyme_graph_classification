@@ -10,7 +10,7 @@ def main(output_filepath):
     logger = logging.getLogger(__name__)
     logger.info('making final data set from raw data')
     
-    data = TUDataset(
+    dataset = TUDataset(
         root=output_filepath,
         name='ENZYMES',
         use_node_attr=True,
