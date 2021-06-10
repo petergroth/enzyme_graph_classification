@@ -1,7 +1,9 @@
 from pathlib import Path
-from torch_geometric.datasets import TUDataset
-import torch
+
 import numpy as np
+import torch
+from torch_geometric.datasets import TUDataset
+
 
 def load_data(props=[0.7, 0.15, 0.15], seed=42):
     torch.manual_seed(seed)
