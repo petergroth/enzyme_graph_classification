@@ -44,9 +44,12 @@ def main():
     dm.prepare_data()
 
     # Model
-    model = GNN(**GNN.from_argparse_args(args))
+    model = GNN(
+        n_node_features=dm.num_features,
+        n_classes=dm.num_classes,
+        **GNN.from_argparse_args(args))
     classifier = Classifier(
-        model, **ImageClassifier.from_argparse_args(args))
+        model, **Classifier.from_argparse_args(args))
     wandb_logger.watch(classifier)
 
     # Trainer
