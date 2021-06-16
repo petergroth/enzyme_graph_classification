@@ -1,6 +1,7 @@
 import pytest
 from src.models.model import GNN
 
-def test_initialization(global_pooling):
+def test_initialization_pooling(global_pooling):
     with pytest.raises(ValueError):
-        model = GNN(10, 10, 32, embed='global_mean_pol')
+        # Try with invalid pooling
+        model = GNN(10, 10, 32, global_pooling='global_mean_pol')
