@@ -68,18 +68,18 @@ class GNN(nn.Module):
 
 
 class Classifier(pl.LightningModule):
-    def __init__(self, model, num_classes: int, lr: float = 3e-4):
+    def __init__(self, model, lr: float = 3e-4):
         super().__init__()
         self.model = model
-        self.num_classes = num_classes
+        self.num_classes = model.n_classes
         self.lr = lr
 
         # Setup metrics
         metrics = MetricCollection(
             [
-                Accuracy(num_classes=num_classes),
-                Precision(num_classes=num_classes),
-                Recall(num_classes=num_classes),
+                Accuracy(num_classes=self.num_classes),
+                Precision(num_classes=self.num_classes),
+                Recall(num_classes=self.num_classes),
             ]
         )
         self.train_metrics = metrics.clone(prefix="train_")
@@ -89,8 +89,8 @@ class Classifier(pl.LightningModule):
         self.save_hyperparameters()
 
     def training_step(self, batch, batch_id):
-        images, labels = batch
-        logits = self.model(images)
+        logits = self.model(batch.x, batch.edge_index, batch.batch)
+        labels = batch.y
         loss = F.cross_entropy(logits, labels)
         # Logging
         log_output = self.train_metrics(F.softmax(logits, dim=-1), labels)
@@ -103,8 +103,8 @@ class Classifier(pl.LightningModule):
         return torch.optim.Adam(self.parameters(), lr=self.lr)
 
     def validation_step(self, batch, batch_idx):
-        images, labels = batch
-        logits = self.model(images)
+        logits = self.model(batch.x, batch.edge_index, batch.batch)
+        labels = batch.y
         loss = F.cross_entropy(logits, labels)
         # Logging
         log_output = self.valid_metrics(F.softmax(logits, dim=-1), labels)
@@ -113,25 +113,22 @@ class Classifier(pl.LightningModule):
         return
 
     def test_step(self, batch, batch_idx):
-        images, labels = batch
-        logits = self.model(images)
+        logits = self.model(batch.x, batch.edge_index, batch.batch)
+        labels = batch.y
         loss = F.cross_entropy(logits, labels)
         # Logging
         log_output = self.test_metrics(F.softmax(logits, dim=-1), labels)
         self.log_dict(log_output, on_step=True, on_epoch=True)
         self.log("test_loss", loss)
-        return self.test_accuracy
+        return self.test_metrics
 
-    def forward(self, x: torch.Tensor):
+    def forward(self, batch, batch_idx):
         # Makes the Classifier callable
-        return self.model(x)
+        return self.model(batch.x, batch.edge_index, batch.batch)
 
     def predict_step(self, batch, batch_idx=None):
-        # Prediction step for use with Azure
-        x = torch.from_numpy(batch)
-        x = x.type(torch.FloatTensor)
-        outputs = self.model(x)
-        ps = F.softmax(outputs, dim=-1)
+        logits = self.model(batch.x, batch.edge_index, batch.batch)
+        ps = F.softmax(logits, dim=-1)
         ps = ps.max(1)[1]
         ps = ps.numpy()
         return ps
