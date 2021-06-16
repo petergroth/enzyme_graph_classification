@@ -1,0 +1,24 @@
+{
+    "os": "Linux-5.4.124-1-MANJARO-x86_64-with-glibc2.10",
+    "python": "3.8.10",
+    "heartbeatAt": "2021-06-16T13:33:49.517937",
+    "startedAt": "2021-06-16T13:33:46.003896",
+    "docker": null,
+    "gpu": "NVIDIA GeForce GTX 960M",
+    "gpu_count": 1,
+    "cpu_count": 8,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "/home/peterg/drive/DTU/10. semester/MLOps/enzyme_graph_classification/src/models/train_model.py",
+    "codePath": "src/models/train_model.py",
+    "git": {
+        "remote": "https://github.com/petergroth/enzyme_graph_classification",
+        "commit": "70ae27d108ed03aac04fd9542e229217ad923fb1"
+    },
+    "email": "petermoerchgroth@gmail.com",
+    "root": "/home/peterg/drive/DTU/10. semester/MLOps/enzyme_graph_classification",
+    "host": "pmgmanjaro",
+    "username": "peterg",
+    "executable": "/home/peterg/miniconda3/envs/mlops/bin/python"
+}

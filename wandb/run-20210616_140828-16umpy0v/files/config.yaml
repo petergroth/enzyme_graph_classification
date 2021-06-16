@@ -1,0 +1,1312 @@
+wandb_version: 1
+
+_wandb:
+  desc: null
+  value:
+    cli_version: 0.10.31
+    framework: lightning
+    is_jupyter_run: false
+    is_kaggle_kernel: false
+    m:
+    - 1: trainer/global_step
+      6:
+      - 3
+    - 1: train_Accuracy_epoch
+      5: 1
+      6:
+      - 1
+    - 1: train_Precision_epoch
+      5: 1
+      6:
+      - 1
+    - 1: train_Recall_epoch
+      5: 1
+      6:
+      - 1
+    - 1: train_loss_epoch
+      5: 1
+      6:
+      - 1
+    - 1: epoch
+      5: 1
+      6:
+      - 1
+    - 1: val_Accuracy_step/epoch_0
+      5: 1
+      6:
+      - 1
+    - 1: val_Precision_step/epoch_0
+      5: 1
+      6:
+      - 1
+    - 1: val_Recall_step/epoch_0
+      5: 1
+      6:
+      - 1
+    - 1: val_loss_step/epoch_0
+      5: 1
+      6:
+      - 1
+    - 1: val_Accuracy_epoch
+      5: 1
+      6:
+      - 1
+    - 1: val_Precision_epoch
+      5: 1
+      6:
+      - 1
+    - 1: val_Recall_epoch
+      5: 1
+      6:
+      - 1
+    - 1: val_loss_epoch
+      5: 1
+      6:
+      - 1
+    - 1: val_Accuracy_step/epoch_1
+      5: 1
+      6:
+      - 1
+    - 1: val_Precision_step/epoch_1
+      5: 1
+      6:
+      - 1
+    - 1: val_Recall_step/epoch_1
+      5: 1
+      6:
+      - 1
+    - 1: val_loss_step/epoch_1
+      5: 1
+      6:
+      - 1
+    - 1: val_Accuracy_step/epoch_2
+      5: 1
+      6:
+      - 1
+    - 1: val_Precision_step/epoch_2
+      5: 1
+      6:
+      - 1
+    - 1: val_Recall_step/epoch_2
+      5: 1
+      6:
+      - 1
+    - 1: val_loss_step/epoch_2
+      5: 1
+      6:
+      - 1
+    - 1: val_Accuracy_step/epoch_3
+      5: 1
+      6:
+      - 1
+    - 1: val_Precision_step/epoch_3
+      5: 1
+      6:
+      - 1
+    - 1: val_Recall_step/epoch_3
+      5: 1
+      6:
+      - 1
+    - 1: val_loss_step/epoch_3
+      5: 1
+      6:
+      - 1
+    - 1: val_Accuracy_step/epoch_4
+      5: 1
+      6:
+      - 1
+    - 1: val_Precision_step/epoch_4
+      5: 1
+      6:
+      - 1
+    - 1: val_Recall_step/epoch_4
+      5: 1
+      6:
+      - 1
+    - 1: val_loss_step/epoch_4
+      5: 1
+      6:
+      - 1
+    - 1: val_Accuracy_step/epoch_5
+      5: 1
+      6:
+      - 1
+    - 1: val_Precision_step/epoch_5
+      5: 1
+      6:
+      - 1
+    - 1: val_Recall_step/epoch_5
+      5: 1
+      6:
+      - 1
+    - 1: val_loss_step/epoch_5
+      5: 1
+      6:
+      - 1
+    - 1: val_Accuracy_step/epoch_6
+      5: 1
+      6:
+      - 1
+    - 1: val_Precision_step/epoch_6
+      5: 1
+      6:
+      - 1
+    - 1: val_Recall_step/epoch_6
+      5: 1
+      6:
+      - 1
+    - 1: val_loss_step/epoch_6
+      5: 1
+      6:
+      - 1
+    - 1: train_Accuracy_step
+      5: 1
+      6:
+      - 1
+    - 1: train_Precision_step
+      5: 1
+      6:
+      - 1
+    - 1: train_Recall_step
+      5: 1
+      6:
+      - 1
+    - 1: train_loss_step
+      5: 1
+      6:
+      - 1
+    - 1: val_Accuracy_step/epoch_7
+      5: 1
+      6:
+      - 1
+    - 1: val_Precision_step/epoch_7
+      5: 1
+      6:
+      - 1
+    - 1: val_Recall_step/epoch_7
+      5: 1
+      6:
+      - 1
+    - 1: val_loss_step/epoch_7
+      5: 1
+      6:
+      - 1
+    - 1: val_Accuracy_step/epoch_8
+      5: 1
+      6:
+      - 1
+    - 1: val_Precision_step/epoch_8
+      5: 1
+      6:
+      - 1
+    - 1: val_Recall_step/epoch_8
+      5: 1
+      6:
+      - 1
+    - 1: val_loss_step/epoch_8
+      5: 1
+      6:
+      - 1
+    - 1: val_Accuracy_step/epoch_9
+      5: 1
+      6:
+      - 1
+    - 1: val_Precision_step/epoch_9
+      5: 1
+      6:
+      - 1
+    - 1: val_Recall_step/epoch_9
+      5: 1
+      6:
+      - 1
+    - 1: val_loss_step/epoch_9
+      5: 1
+      6:
+      - 1
+    - 1: val_Accuracy_step/epoch_10
+      5: 1
+      6:
+      - 1
+    - 1: val_Precision_step/epoch_10
+      5: 1
+      6:
+      - 1
+    - 1: val_Recall_step/epoch_10
+      5: 1
+      6:
+      - 1
+    - 1: val_loss_step/epoch_10
+      5: 1
+      6:
+      - 1
+    - 1: val_Accuracy_step/epoch_11
+      5: 1
+      6:
+      - 1
+    - 1: val_Precision_step/epoch_11
+      5: 1
+      6:
+      - 1
+    - 1: val_Recall_step/epoch_11
+      5: 1
+      6:
+      - 1
+    - 1: val_loss_step/epoch_11
+      5: 1
+      6:
+      - 1
+    - 1: val_Accuracy_step/epoch_12
+      5: 1
+      6:
+      - 1
+    - 1: val_Precision_step/epoch_12
+      5: 1
+      6:
+      - 1
+    - 1: val_Recall_step/epoch_12
+      5: 1
+      6:
+      - 1
+    - 1: val_loss_step/epoch_12
+      5: 1
+      6:
+      - 1
+    - 1: val_Accuracy_step/epoch_13
+      5: 1
+      6:
+      - 1
+    - 1: val_Precision_step/epoch_13
+      5: 1
+      6:
+      - 1
+    - 1: val_Recall_step/epoch_13
+      5: 1
+      6:
+      - 1
+    - 1: val_loss_step/epoch_13
+      5: 1
+      6:
+      - 1
+    - 1: gradients/model\.fc1\.bias._type
+      5: 1
+      6:
+      - 1
+    - 1: gradients/model\.fc1\.bias.values
+      5: 1
+      6:
+      - 1
+    - 1: gradients/model\.fc1\.bias.bins
+      5: 1
+      6:
+      - 1
+    - 1: gradients/model\.fc1\.weight._type
+      5: 1
+      6:
+      - 1
+    - 1: gradients/model\.fc1\.weight.values
+      5: 1
+      6:
+      - 1
+    - 1: gradients/model\.fc1\.weight.bins
+      5: 1
+      6:
+      - 1
+    - 1: gradients/model\.gcn3\.bias._type
+      5: 1
+      6:
+      - 1
+    - 1: gradients/model\.gcn3\.bias.values
+      5: 1
+      6:
+      - 1
+    - 1: gradients/model\.gcn3\.bias.bins
+      5: 1
+      6:
+      - 1
+    - 1: gradients/model\.gcn3\.weight._type
+      5: 1
+      6:
+      - 1
+    - 1: gradients/model\.gcn3\.weight.values
+      5: 1
+      6:
+      - 1
+    - 1: gradients/model\.gcn3\.weight.bins
+      5: 1
+      6:
+      - 1
+    - 1: gradients/model\.gcn2\.bias._type
+      5: 1
+      6:
+      - 1
+    - 1: gradients/model\.gcn2\.bias.values
+      5: 1
+      6:
+      - 1
+    - 1: gradients/model\.gcn2\.bias.bins
+      5: 1
+      6:
+      - 1
+    - 1: gradients/model\.gcn2\.weight._type
+      5: 1
+      6:
+      - 1
+    - 1: gradients/model\.gcn2\.weight.values
+      5: 1
+      6:
+      - 1
+    - 1: gradients/model\.gcn2\.weight.bins
+      5: 1
+      6:
+      - 1
+    - 1: gradients/model\.gcn1\.bias._type
+      5: 1
+      6:
+      - 1
+    - 1: gradients/model\.gcn1\.bias.values
+      5: 1
+      6:
+      - 1
+    - 1: gradients/model\.gcn1\.bias.bins
+      5: 1
+      6:
+      - 1
+    - 1: gradients/model\.gcn1\.weight._type
+      5: 1
+      6:
+      - 1
+    - 1: gradients/model\.gcn1\.weight.values
+      5: 1
+      6:
+      - 1
+    - 1: gradients/model\.gcn1\.weight.bins
+      5: 1
+      6:
+      - 1
+    - 1: val_Accuracy_step/epoch_14
+      5: 1
+      6:
+      - 1
+    - 1: val_Precision_step/epoch_14
+      5: 1
+      6:
+      - 1
+    - 1: val_Recall_step/epoch_14
+      5: 1
+      6:
+      - 1
+    - 1: val_loss_step/epoch_14
+      5: 1
+      6:
+      - 1
+    - 1: val_Accuracy_step/epoch_15
+      5: 1
+      6:
+      - 1
+    - 1: val_Precision_step/epoch_15
+      5: 1
+      6:
+      - 1
+    - 1: val_Recall_step/epoch_15
+      5: 1
+      6:
+      - 1
+    - 1: val_loss_step/epoch_15
+      5: 1
+      6:
+      - 1
+    - 1: val_Accuracy_step/epoch_16
+      5: 1
+      6:
+      - 1
+    - 1: val_Precision_step/epoch_16
+      5: 1
+      6:
+      - 1
+    - 1: val_Recall_step/epoch_16
+      5: 1
+      6:
+      - 1
+    - 1: val_loss_step/epoch_16
+      5: 1
+      6:
+      - 1
+    - 1: val_Accuracy_step/epoch_17
+      5: 1
+      6:
+      - 1
+    - 1: val_Precision_step/epoch_17
+      5: 1
+      6:
+      - 1
+    - 1: val_Recall_step/epoch_17
+      5: 1
+      6:
+      - 1
+    - 1: val_loss_step/epoch_17
+      5: 1
+      6:
+      - 1
+    - 1: val_Accuracy_step/epoch_18
+      5: 1
+      6:
+      - 1
+    - 1: val_Precision_step/epoch_18
+      5: 1
+      6:
+      - 1
+    - 1: val_Recall_step/epoch_18
+      5: 1
+      6:
+      - 1
+    - 1: val_loss_step/epoch_18
+      5: 1
+      6:
+      - 1
+    - 1: val_Accuracy_step/epoch_19
+      5: 1
+      6:
+      - 1
+    - 1: val_Precision_step/epoch_19
+      5: 1
+      6:
+      - 1
+    - 1: val_Recall_step/epoch_19
+      5: 1
+      6:
+      - 1
+    - 1: val_loss_step/epoch_19
+      5: 1
+      6:
+      - 1
+    - 1: val_Accuracy_step/epoch_20
+      5: 1
+      6:
+      - 1
+    - 1: val_Precision_step/epoch_20
+      5: 1
+      6:
+      - 1
+    - 1: val_Recall_step/epoch_20
+      5: 1
+      6:
+      - 1
+    - 1: val_loss_step/epoch_20
+      5: 1
+      6:
+      - 1
+    - 1: val_Accuracy_step/epoch_21
+      5: 1
+      6:
+      - 1
+    - 1: val_Precision_step/epoch_21
+      5: 1
+      6:
+      - 1
+    - 1: val_Recall_step/epoch_21
+      5: 1
+      6:
+      - 1
+    - 1: val_loss_step/epoch_21
+      5: 1
+      6:
+      - 1
+    - 1: val_Accuracy_step/epoch_22
+      5: 1
+      6:
+      - 1
+    - 1: val_Precision_step/epoch_22
+      5: 1
+      6:
+      - 1
+    - 1: val_Recall_step/epoch_22
+      5: 1
+      6:
+      - 1
+    - 1: val_loss_step/epoch_22
+      5: 1
+      6:
+      - 1
+    - 1: val_Accuracy_step/epoch_23
+      5: 1
+      6:
+      - 1
+    - 1: val_Precision_step/epoch_23
+      5: 1
+      6:
+      - 1
+    - 1: val_Recall_step/epoch_23
+      5: 1
+      6:
+      - 1
+    - 1: val_loss_step/epoch_23
+      5: 1
+      6:
+      - 1
+    - 1: val_Accuracy_step/epoch_24
+      5: 1
+      6:
+      - 1
+    - 1: val_Precision_step/epoch_24
+      5: 1
+      6:
+      - 1
+    - 1: val_Recall_step/epoch_24
+      5: 1
+      6:
+      - 1
+    - 1: val_loss_step/epoch_24
+      5: 1
+      6:
+      - 1
+    - 1: val_Accuracy_step/epoch_25
+      5: 1
+      6:
+      - 1
+    - 1: val_Precision_step/epoch_25
+      5: 1
+      6:
+      - 1
+    - 1: val_Recall_step/epoch_25
+      5: 1
+      6:
+      - 1
+    - 1: val_loss_step/epoch_25
+      5: 1
+      6:
+      - 1
+    - 1: val_Accuracy_step/epoch_26
+      5: 1
+      6:
+      - 1
+    - 1: val_Precision_step/epoch_26
+      5: 1
+      6:
+      - 1
+    - 1: val_Recall_step/epoch_26
+      5: 1
+      6:
+      - 1
+    - 1: val_loss_step/epoch_26
+      5: 1
+      6:
+      - 1
+    - 1: val_Accuracy_step/epoch_27
+      5: 1
+      6:
+      - 1
+    - 1: val_Precision_step/epoch_27
+      5: 1
+      6:
+      - 1
+    - 1: val_Recall_step/epoch_27
+      5: 1
+      6:
+      - 1
+    - 1: val_loss_step/epoch_27
+      5: 1
+      6:
+      - 1
+    - 1: val_Accuracy_step/epoch_28
+      5: 1
+      6:
+      - 1
+    - 1: val_Precision_step/epoch_28
+      5: 1
+      6:
+      - 1
+    - 1: val_Recall_step/epoch_28
+      5: 1
+      6:
+      - 1
+    - 1: val_loss_step/epoch_28
+      5: 1
+      6:
+      - 1
+    - 1: val_Accuracy_step/epoch_29
+      5: 1
+      6:
+      - 1
+    - 1: val_Precision_step/epoch_29
+      5: 1
+      6:
+      - 1
+    - 1: val_Recall_step/epoch_29
+      5: 1
+      6:
+      - 1
+    - 1: val_loss_step/epoch_29
+      5: 1
+      6:
+      - 1
+    - 1: val_Accuracy_step/epoch_30
+      5: 1
+      6:
+      - 1
+    - 1: val_Precision_step/epoch_30
+      5: 1
+      6:
+      - 1
+    - 1: val_Recall_step/epoch_30
+      5: 1
+      6:
+      - 1
+    - 1: val_loss_step/epoch_30
+      5: 1
+      6:
+      - 1
+    - 1: val_Accuracy_step/epoch_31
+      5: 1
+      6:
+      - 1
+    - 1: val_Precision_step/epoch_31
+      5: 1
+      6:
+      - 1
+    - 1: val_Recall_step/epoch_31
+      5: 1
+      6:
+      - 1
+    - 1: val_loss_step/epoch_31
+      5: 1
+      6:
+      - 1
+    - 1: val_Accuracy_step/epoch_32
+      5: 1
+      6:
+      - 1
+    - 1: val_Precision_step/epoch_32
+      5: 1
+      6:
+      - 1
+    - 1: val_Recall_step/epoch_32
+      5: 1
+      6:
+      - 1
+    - 1: val_loss_step/epoch_32
+      5: 1
+      6:
+      - 1
+    - 1: val_Accuracy_step/epoch_33
+      5: 1
+      6:
+      - 1
+    - 1: val_Precision_step/epoch_33
+      5: 1
+      6:
+      - 1
+    - 1: val_Recall_step/epoch_33
+      5: 1
+      6:
+      - 1
+    - 1: val_loss_step/epoch_33
+      5: 1
+      6:
+      - 1
+    - 1: val_Accuracy_step/epoch_34
+      5: 1
+      6:
+      - 1
+    - 1: val_Precision_step/epoch_34
+      5: 1
+      6:
+      - 1
+    - 1: val_Recall_step/epoch_34
+      5: 1
+      6:
+      - 1
+    - 1: val_loss_step/epoch_34
+      5: 1
+      6:
+      - 1
+    - 1: val_Accuracy_step/epoch_35
+      5: 1
+      6:
+      - 1
+    - 1: val_Precision_step/epoch_35
+      5: 1
+      6:
+      - 1
+    - 1: val_Recall_step/epoch_35
+      5: 1
+      6:
+      - 1
+    - 1: val_loss_step/epoch_35
+      5: 1
+      6:
+      - 1
+    - 1: val_Accuracy_step/epoch_36
+      5: 1
+      6:
+      - 1
+    - 1: val_Precision_step/epoch_36
+      5: 1
+      6:
+      - 1
+    - 1: val_Recall_step/epoch_36
+      5: 1
+      6:
+      - 1
+    - 1: val_loss_step/epoch_36
+      5: 1
+      6:
+      - 1
+    - 1: val_Accuracy_step/epoch_37
+      5: 1
+      6:
+      - 1
+    - 1: val_Precision_step/epoch_37
+      5: 1
+      6:
+      - 1
+    - 1: val_Recall_step/epoch_37
+      5: 1
+      6:
+      - 1
+    - 1: val_loss_step/epoch_37
+      5: 1
+      6:
+      - 1
+    - 1: val_Accuracy_step/epoch_38
+      5: 1
+      6:
+      - 1
+    - 1: val_Precision_step/epoch_38
+      5: 1
+      6:
+      - 1
+    - 1: val_Recall_step/epoch_38
+      5: 1
+      6:
+      - 1
+    - 1: val_loss_step/epoch_38
+      5: 1
+      6:
+      - 1
+    - 1: val_Accuracy_step/epoch_39
+      5: 1
+      6:
+      - 1
+    - 1: val_Precision_step/epoch_39
+      5: 1
+      6:
+      - 1
+    - 1: val_Recall_step/epoch_39
+      5: 1
+      6:
+      - 1
+    - 1: val_loss_step/epoch_39
+      5: 1
+      6:
+      - 1
+    - 1: val_Accuracy_step/epoch_40
+      5: 1
+      6:
+      - 1
+    - 1: val_Precision_step/epoch_40
+      5: 1
+      6:
+      - 1
+    - 1: val_Recall_step/epoch_40
+      5: 1
+      6:
+      - 1
+    - 1: val_loss_step/epoch_40
+      5: 1
+      6:
+      - 1
+    - 1: val_Accuracy_step/epoch_41
+      5: 1
+      6:
+      - 1
+    - 1: val_Precision_step/epoch_41
+      5: 1
+      6:
+      - 1
+    - 1: val_Recall_step/epoch_41
+      5: 1
+      6:
+      - 1
+    - 1: val_loss_step/epoch_41
+      5: 1
+      6:
+      - 1
+    - 1: val_Accuracy_step/epoch_42
+      5: 1
+      6:
+      - 1
+    - 1: val_Precision_step/epoch_42
+      5: 1
+      6:
+      - 1
+    - 1: val_Recall_step/epoch_42
+      5: 1
+      6:
+      - 1
+    - 1: val_loss_step/epoch_42
+      5: 1
+      6:
+      - 1
+    - 1: val_Accuracy_step/epoch_43
+      5: 1
+      6:
+      - 1
+    - 1: val_Precision_step/epoch_43
+      5: 1
+      6:
+      - 1
+    - 1: val_Recall_step/epoch_43
+      5: 1
+      6:
+      - 1
+    - 1: val_loss_step/epoch_43
+      5: 1
+      6:
+      - 1
+    - 1: val_Accuracy_step/epoch_44
+      5: 1
+      6:
+      - 1
+    - 1: val_Precision_step/epoch_44
+      5: 1
+      6:
+      - 1
+    - 1: val_Recall_step/epoch_44
+      5: 1
+      6:
+      - 1
+    - 1: val_loss_step/epoch_44
+      5: 1
+      6:
+      - 1
+    - 1: val_Accuracy_step/epoch_45
+      5: 1
+      6:
+      - 1
+    - 1: val_Precision_step/epoch_45
+      5: 1
+      6:
+      - 1
+    - 1: val_Recall_step/epoch_45
+      5: 1
+      6:
+      - 1
+    - 1: val_loss_step/epoch_45
+      5: 1
+      6:
+      - 1
+    - 1: val_Accuracy_step/epoch_46
+      5: 1
+      6:
+      - 1
+    - 1: val_Precision_step/epoch_46
+      5: 1
+      6:
+      - 1
+    - 1: val_Recall_step/epoch_46
+      5: 1
+      6:
+      - 1
+    - 1: val_loss_step/epoch_46
+      5: 1
+      6:
+      - 1
+    - 1: val_Accuracy_step/epoch_47
+      5: 1
+      6:
+      - 1
+    - 1: val_Precision_step/epoch_47
+      5: 1
+      6:
+      - 1
+    - 1: val_Recall_step/epoch_47
+      5: 1
+      6:
+      - 1
+    - 1: val_loss_step/epoch_47
+      5: 1
+      6:
+      - 1
+    - 1: val_Accuracy_step/epoch_48
+      5: 1
+      6:
+      - 1
+    - 1: val_Precision_step/epoch_48
+      5: 1
+      6:
+      - 1
+    - 1: val_Recall_step/epoch_48
+      5: 1
+      6:
+      - 1
+    - 1: val_loss_step/epoch_48
+      5: 1
+      6:
+      - 1
+    - 1: val_Accuracy_step/epoch_49
+      5: 1
+      6:
+      - 1
+    - 1: val_Precision_step/epoch_49
+      5: 1
+      6:
+      - 1
+    - 1: val_Recall_step/epoch_49
+      5: 1
+      6:
+      - 1
+    - 1: val_loss_step/epoch_49
+      5: 1
+      6:
+      - 1
+    - 1: val_Accuracy_step/epoch_50
+      5: 1
+      6:
+      - 1
+    - 1: val_Precision_step/epoch_50
+      5: 1
+      6:
+      - 1
+    - 1: val_Recall_step/epoch_50
+      5: 1
+      6:
+      - 1
+    - 1: val_loss_step/epoch_50
+      5: 1
+      6:
+      - 1
+    - 1: val_Accuracy_step/epoch_51
+      5: 1
+      6:
+      - 1
+    - 1: val_Precision_step/epoch_51
+      5: 1
+      6:
+      - 1
+    - 1: val_Recall_step/epoch_51
+      5: 1
+      6:
+      - 1
+    - 1: val_loss_step/epoch_51
+      5: 1
+      6:
+      - 1
+    - 1: val_Accuracy_step/epoch_52
+      5: 1
+      6:
+      - 1
+    - 1: val_Precision_step/epoch_52
+      5: 1
+      6:
+      - 1
+    - 1: val_Recall_step/epoch_52
+      5: 1
+      6:
+      - 1
+    - 1: val_loss_step/epoch_52
+      5: 1
+      6:
+      - 1
+    - 1: val_Accuracy_step/epoch_53
+      5: 1
+      6:
+      - 1
+    - 1: val_Precision_step/epoch_53
+      5: 1
+      6:
+      - 1
+    - 1: val_Recall_step/epoch_53
+      5: 1
+      6:
+      - 1
+    - 1: val_loss_step/epoch_53
+      5: 1
+      6:
+      - 1
+    - 1: val_Accuracy_step/epoch_54
+      5: 1
+      6:
+      - 1
+    - 1: val_Precision_step/epoch_54
+      5: 1
+      6:
+      - 1
+    - 1: val_Recall_step/epoch_54
+      5: 1
+      6:
+      - 1
+    - 1: val_loss_step/epoch_54
+      5: 1
+      6:
+      - 1
+    - 1: val_Accuracy_step/epoch_55
+      5: 1
+      6:
+      - 1
+    - 1: val_Precision_step/epoch_55
+      5: 1
+      6:
+      - 1
+    - 1: val_Recall_step/epoch_55
+      5: 1
+      6:
+      - 1
+    - 1: val_loss_step/epoch_55
+      5: 1
+      6:
+      - 1
+    - 1: val_Accuracy_step/epoch_56
+      5: 1
+      6:
+      - 1
+    - 1: val_Precision_step/epoch_56
+      5: 1
+      6:
+      - 1
+    - 1: val_Recall_step/epoch_56
+      5: 1
+      6:
+      - 1
+    - 1: val_loss_step/epoch_56
+      5: 1
+      6:
+      - 1
+    - 1: test_Accuracy_step/epoch_57
+      5: 1
+      6:
+      - 1
+    - 1: test_Precision_step/epoch_57
+      5: 1
+      6:
+      - 1
+    - 1: test_Recall_step/epoch_57
+      5: 1
+      6:
+      - 1
+    - 1: test_Accuracy_epoch
+      5: 1
+      6:
+      - 1
+    - 1: test_Precision_epoch
+      5: 1
+      6:
+      - 1
+    - 1: test_Recall_epoch
+      5: 1
+      6:
+      - 1
+    - 1: test_loss
+      5: 1
+      6:
+      - 1
+    python_version: 3.8.10
+    t:
+      1:
+      - 1
+      - 5
+      - 9
+      4: 3.8.10
+      5: 0.10.31
+      8:
+      - 5
+accelerator:
+  desc: null
+  value: null
+accumulate_grad_batches:
+  desc: null
+  value: 1
+amp_backend:
+  desc: null
+  value: native
+amp_level:
+  desc: null
+  value: O2
+auto_lr_find:
+  desc: null
+  value: false
+auto_scale_batch_size:
+  desc: null
+  value: false
+auto_select_gpus:
+  desc: null
+  value: false
+batch_size:
+  desc: null
+  value: 64
+benchmark:
+  desc: null
+  value: false
+check_val_every_n_epoch:
+  desc: null
+  value: 1
+checkpoint_callback:
+  desc: null
+  value: true
+data_dir:
+  desc: null
+  value: /home/peterg/drive/DTU/10. semester/MLOps/enzyme_graph_classification/data/
+default_root_dir:
+  desc: null
+  value: null
+deterministic:
+  desc: null
+  value: false
+distributed_backend:
+  desc: null
+  value: null
+fast_dev_run:
+  desc: null
+  value: false
+flush_logs_every_n_steps:
+  desc: null
+  value: 100
+global_pooling:
+  desc: null
+  value: global_mean_pool
+gpus:
+  desc: null
+  value: null
+gradient_clip_algorithm:
+  desc: null
+  value: norm
+gradient_clip_val:
+  desc: null
+  value: 0.0
+hidden_size:
+  desc: null
+  value: 32
+limit_predict_batches:
+  desc: null
+  value: 1.0
+limit_test_batches:
+  desc: null
+  value: 1.0
+limit_train_batches:
+  desc: null
+  value: 1.0
+limit_val_batches:
+  desc: null
+  value: 1.0
+log_every_n_steps:
+  desc: null
+  value: 50
+log_gpu_memory:
+  desc: null
+  value: null
+logger:
+  desc: null
+  value: true
+lr:
+  desc: null
+  value: 0.0003
+max_epochs:
+  desc: null
+  value: null
+max_steps:
+  desc: null
+  value: null
+max_time:
+  desc: null
+  value: null
+min_epochs:
+  desc: null
+  value: null
+min_steps:
+  desc: null
+  value: null
+model:
+  desc: null
+  value: null
+model_path:
+  desc: null
+  value: /home/peterg/drive/DTU/10. semester/MLOps/enzyme_graph_classification/models/model.pth
+move_metrics_to_cpu:
+  desc: null
+  value: false
+multiple_trainloader_mode:
+  desc: null
+  value: max_size_cycle
+num_nodes:
+  desc: null
+  value: 1
+num_processes:
+  desc: null
+  value: 1
+num_sanity_val_steps:
+  desc: null
+  value: 2
+num_workers:
+  desc: null
+  value: 0
+overfit_batches:
+  desc: null
+  value: 0.0
+plugins:
+  desc: null
+  value: null
+precision:
+  desc: null
+  value: 32
+prepare_data_per_node:
+  desc: null
+  value: true
+process_position:
+  desc: null
+  value: 0
+profiler:
+  desc: null
+  value: null
+progress_bar_refresh_rate:
+  desc: null
+  value: null
+reload_dataloaders_every_epoch:
+  desc: null
+  value: false
+replace_sampler_ddp:
+  desc: null
+  value: true
+resume_from_checkpoint:
+  desc: null
+  value: null
+seed:
+  desc: null
+  value: 42
+splits:
+  desc: null
+  value:
+  - 0.7
+  - 0.15
+  - 0.15
+stochastic_weight_avg:
+  desc: null
+  value: false
+sync_batchnorm:
+  desc: null
+  value: false
+terminate_on_nan:
+  desc: null
+  value: false
+tpu_cores:
+  desc: null
+  value: null
+track_grad_norm:
+  desc: null
+  value: -1
+truncated_bptt_steps:
+  desc: null
+  value: null
+val_check_interval:
+  desc: null
+  value: 1.0
+wandb_entity:
+  desc: null
+  value: mlops_enzyme_graph_classification
+wandb_project:
+  desc: null
+  value: enzymes-test
+weights_save_path:
+  desc: null
+  value: null
+weights_summary:
+  desc: null
+  value: top

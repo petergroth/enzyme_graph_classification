@@ -52,7 +52,12 @@ class GNN(nn.Module):
         self.global_pooling = eval(global_pooling)
 
     # TODO: Consider different hidden_size for gcn vs fc1
-    def forward(self, x: torch.tensor, edge_index: torch.Tensor, batch: torch.Tensor):
+    def forward(self, x: torch.Tensor, edge_index: torch.Tensor, batch: torch.Tensor):
+        # Check input dimension
+        if x.shape[1] != self.n_node_features:
+            raise ValueError(f"Number of node features of input x is correct. Expected {self.n_node_features} but got {x.shape[1]}.")
+        if batch.shape[0] != x.shape[0]:
+            raise ValueError(f"Number of nodes in x is incompatible with number of nodes in batch.")
         # Perform message passing
         x = self.activation(self.gcn1(x, edge_index))  # [nodes_in_batch, hidden_size]
         x = self.activation(self.gcn2(x, edge_index))  # [nodes_in_batch, hidden_size]
