@@ -110,7 +110,6 @@ class Classifier(pl.LightningModule):
 
         self.save_hyperparameters()
 
-
     def training_step(self, batch, batch_idx):
         logits = self.model(batch.x, batch.edge_index, batch.batch)
         labels = batch.y
@@ -121,6 +120,7 @@ class Classifier(pl.LightningModule):
         self.log("train_loss", loss, on_step=True, on_epoch=True)
 
         return loss
+
 
     def configure_optimizers(self):
         return torch.optim.Adam(self.parameters(), lr=self.lr)
