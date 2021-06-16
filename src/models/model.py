@@ -39,7 +39,6 @@ class GNN(nn.Module):
         self.fc1 = nn.Linear(in_features=self.hidden_size, out_features=self.n_classes)
 
         self.activation = nn.LeakyReLU()
-        self.log_softmax = nn.LogSoftmax(dim=-1)
 
         if global_pooling not in [
             "global_mean_pool",
@@ -62,9 +61,8 @@ class GNN(nn.Module):
         embed = self.global_pooling(x, batch)  # [batch_size, hidden_size]
         # Feed through linear layer for prediction
         embed = self.fc1(embed)  # [batch_size, n_classes]
-        logits = self.log_softmax(embed)  # [batch_size, n_classes]
 
-        return logits
+        return embed
     
     @staticmethod
     def add_model_specific_args(parent_parser):
@@ -110,7 +108,6 @@ class Classifier(pl.LightningModule):
 
         self.save_hyperparameters()
 
-
     def training_step(self, batch, batch_idx):
         logits = self.model(batch.x, batch.edge_index, batch.batch)
         labels = batch.y
@@ -155,3 +152,18 @@ class Classifier(pl.LightningModule):
         ps = ps.max(1)[1]
         ps = ps.numpy()
         return ps
+    
+    @staticmethod
+    def add_model_specific_args(parent_parser):
+        parser = parent_parser.add_argument_group('ConvNet')
+        parser.add_argument('--lr', type=float, default=3e-4)
+
+        return parent_parser
+    
+    @staticmethod
+    def from_argparse_args(namespace):
+        ns_dict = vars(namespace)
+        args = {
+            'lr': ns_dict.get('lr', 3e-4),}
+        
+        return args
