@@ -1,5 +1,5 @@
 import argparse
-from src.models.model import GNN, Classifier
+from src.models.model import GNN, GraphClassifier
 from src.data.enzymes import EnzymesDataModule
 from pytorch_lightning.loggers import WandbLogger
 from src import project_dir
@@ -34,7 +34,7 @@ def parser(lightning_class, data_class, model_class):
 
 def main():
     # Setup
-    args = parser(Classifier, EnzymesDataModule, GNN)
+    args = parser(GraphClassifier, EnzymesDataModule, GNN)
     wandb_logger = WandbLogger(
         project=args.wandb_project, entity=args.wandb_entity,
         log_model='all', config=args)
@@ -48,8 +48,8 @@ def main():
         n_node_features=dm.num_features,
         n_classes=dm.num_classes,
         **GNN.from_argparse_args(args))
-    classifier = Classifier(
-        model, **Classifier.from_argparse_args(args))
+    classifier = GraphClassifier(
+        model, **GraphClassifier.from_argparse_args(args))
     wandb_logger.watch(classifier)
 
     # Trainer

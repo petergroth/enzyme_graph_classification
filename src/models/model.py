@@ -87,7 +87,7 @@ class GNN(nn.Module):
         return args
 
 
-class Classifier(pl.LightningModule):
+class GraphClassifier(pl.LightningModule):
     def __init__(self, model, lr: float = 3e-4):
         super().__init__()
         self.model = model
@@ -118,6 +118,7 @@ class Classifier(pl.LightningModule):
         self.log("train_loss", loss, on_step=True, on_epoch=True)
 
         return loss
+
 
     def configure_optimizers(self):
         return torch.optim.Adam(self.parameters(), lr=self.lr)

@@ -1,5 +1,5 @@
 import pytest
-from src.models.model import GNN, Classifier
+from src.models.model import GNN, GraphClassifier
 
 def test_initialization_pooling():
     with pytest.raises(ValueError):
