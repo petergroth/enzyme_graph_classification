@@ -12,10 +12,6 @@ torch==1.8.1
 numpy
 torchmetrics
 pytorch-lightning
-torch-scatter -f https://pytorch-geometric.com/whl/torch-1.8.1.html
-torch-sparse
-torch-cluster
-torch-spline-conv
 torch-geometric
 
 # backwards compatibility
