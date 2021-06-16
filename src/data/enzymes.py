@@ -47,7 +47,11 @@ class EnzymesDataModule(pl.LightningDataModule):
     def setup(self, stage=None):
         manual_seed(self.seed)
         dataset = TUDataset(
-            root=self.data_dir, name="ENZYMES", pre_transform=self.transform
+            root=self.data_dir,
+            name="ENZYMES",
+            use_node_attr=True,
+            use_edge_attr=True,
+            pre_transform=self.transform,
         ).shuffle()
 
         split_idx = np.cumsum(
@@ -61,6 +65,7 @@ class EnzymesDataModule(pl.LightningDataModule):
             self.data_train,
             batch_size=self.batch_size,
             num_workers=self.num_workers,
+            shuffle=True,
             pin_memory=True,
         )
 
@@ -69,6 +74,7 @@ class EnzymesDataModule(pl.LightningDataModule):
             self.data_val,
             batch_size=self.batch_size,
             num_workers=self.num_workers,
+            shuffle=False,
             pin_memory=True,
         )
 
@@ -77,6 +83,7 @@ class EnzymesDataModule(pl.LightningDataModule):
             self.data_test,
             batch_size=self.batch_size,
             num_workers=self.num_workers,
+            shuffle=False,
             pin_memory=True,
         )
 
