@@ -65,6 +65,28 @@ class GNN(nn.Module):
         logits = self.log_softmax(embed)  # [batch_size, n_classes]
 
         return logits
+    
+    @staticmethod
+    def add_model_specific_args(parent_parser):
+        parser = parent_parser.add_argument_group('ConvNet')
+        parser.add_argument('--hidden_size', type=int, default=32)
+        parser.add_argument(
+            '--global_pooling',
+            choices=["global_mean_pool", "global_add_pool", "global_max_pool"],
+            default="global_mean_pool")
+    
+        return parent_parser
+    
+    @staticmethod
+    def from_argparse_args(namespace):
+        ns_dict = vars(namespace)
+        args = {
+            'hidden_size': ns_dict.get('hidden_size', 32),
+            'global_pooling': ns_dict.get(
+                'global_pooling', 'global_mean_pooling')
+            }
+        
+        return args
 
 
 class Classifier(pl.LightningModule):
@@ -88,7 +110,8 @@ class Classifier(pl.LightningModule):
 
         self.save_hyperparameters()
 
-    def training_step(self, batch, batch_id):
+
+    def training_step(self, batch, batch_idx):
         logits = self.model(batch.x, batch.edge_index, batch.batch)
         labels = batch.y
         loss = F.cross_entropy(logits, labels)
