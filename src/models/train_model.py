@@ -32,7 +32,7 @@ def parser(lightning_class, data_class, model_class):
     args = parser.parse_args()
 
     return args
-
+"""
 def main():
     # Setup
     args = parser(GraphClassifier, EnzymesDataModule, GNN)
@@ -64,7 +64,51 @@ def main():
     # Test
     dm.setup(stage='test')
     trainer.test(datamodule=dm)
+"""
 
+def setup(args):
+    wandb_logger = WandbLogger(
+        project=args.wandb_project, entity=args.wandb_entity,
+        log_model='all', config=args)
+
+    # Data
+    dm = EnzymesDataModule(**EnzymesDataModule.from_argparse_args(args))
+    dm.prepare_data()
+
+    # Model
+    model = GNN(
+        n_node_features=dm.num_features,
+        n_classes=dm.num_classes,
+        **GNN.from_argparse_args(args))
+    classifier = Classifier(
+        model, **Classifier.from_argparse_args(args))
+    wandb_logger.watch(classifier)
+
+    # Trainer
+    trainer = pl.Trainer.from_argparse_args(args, logger=wandb_logger)
+
+    return dm, classifier, trainer
+
+def train(dm, classifier, trainer):
+    dm.setup(stage='fit')
+    trainer.fit(model=classifier, datamodule=dm)
+
+    return dm, classifier, trainer
+
+def test(dm, classifier, trainer):
+    dm.setup(stage='test')
+    trainer.test(model=classifier, datamodule=dm)
+
+    return dm, classifier, trainer
+
+def main():
+    args = parser(Classifier, EnzymesDataModule, GNN)
+    dm, classifier, trainer = setup(args)
+
+    dm, classifier, trainer = train(dm, classifier, trainer)
+    trainer.save_checkpoint(args.model_path)
+
+    dm, classifier, trainer = test(dm, classifier, trainer)
 
 if __name__ == '__main__':
     main()
