@@ -25,5 +25,9 @@ def load_data(props=[0.7, 0.15, 0.15], seed=42):
     data_val = dataset[split_idx[0]:split_idx[1]]
     data_test = dataset[split_idx[1]:]
 
+    print(data_train.data.x)
+
     return data_train, data_val, data_test
-    
+
+if __name__ == '__main__':
+    load_data()
