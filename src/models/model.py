@@ -87,7 +87,7 @@ class GNN(nn.Module):
         return args
 
 
-class Classifier(pl.LightningModule):
+class GraphClassifier(pl.LightningModule):
     def __init__(self, model, lr: float = 3e-4):
         super().__init__()
         self.model = model
