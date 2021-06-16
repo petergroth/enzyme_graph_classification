@@ -80,8 +80,8 @@ def setup(args):
         n_node_features=dm.num_features,
         n_classes=dm.num_classes,
         **GNN.from_argparse_args(args))
-    classifier = Classifier(
-        model, **Classifier.from_argparse_args(args))
+    classifier = GraphClassifier(
+        model, **GraphClassifier.from_argparse_args(args))
     wandb_logger.watch(classifier)
 
     # Trainer
@@ -102,7 +102,7 @@ def test(dm, classifier, trainer):
     return dm, classifier, trainer
 
 def main():
-    args = parser(Classifier, EnzymesDataModule, GNN)
+    args = parser(GraphClassifier, EnzymesDataModule, GNN)
     dm, classifier, trainer = setup(args)
 
     dm, classifier, trainer = train(dm, classifier, trainer)
