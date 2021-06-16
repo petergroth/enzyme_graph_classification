@@ -25,10 +25,10 @@ jobs:
         pip install -r requirements_tests.txt
     - name: Install PyG and dependencies
       run: |
-        pip install torch-scatter -f https://pytorch-geometric.com/whl/torch-1.8.1+cpu.html
-        pip install torch-sparse -f https://pytorch-geometric.com/whl/torch-1.8.1+cpu.html
-        pip install torch-cluster -f https://pytorch-geometric.com/whl/torch-1.8.1+cpu.html
-        pip install torch-spline-conv -f https://pytorch-geometric.com/whl/torch-1.8.1+cpu.html
+        pip install torch-scatter -f https://pytorch-geometric.com/whl/torch-1.8.1+cpu.html --no-cache-dir
+        pip install torch-sparse -f https://pytorch-geometric.com/whl/torch-1.8.1+cpu.html --no-cache-dir
+        pip install torch-cluster -f https://pytorch-geometric.com/whl/torch-1.8.1+cpu.html --no-cache-dir
+        pip install torch-spline-conv -f https://pytorch-geometric.com/whl/torch-1.8.1+cpu.html --no-cache-dir
         pip install torch-geometric
 
     - name: Test with pytest
