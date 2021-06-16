@@ -2,9 +2,9 @@ name: "Run tests"
 
 on:
   push:
-    branches: [ main, pmg_local, jv_local ]
+    branches: [ main ]
   pull_request:
-    branches: [ main, pmg_local, jv_local ]
+    branches: [ main ]
 
 jobs:
   build:
