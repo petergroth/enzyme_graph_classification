@@ -89,7 +89,7 @@ class EnzymesDataModule(pl.LightningDataModule):
         parser.add_argument("--num_workers", default=0, type=int)
         parser.add_argument(
             "--splits", default=[0.7, 0.15, 0.15], nargs=3, type=float)
-        parser.add_argument("--seed", defualt=42, type=int)
+        parser.add_argument("--seed", default=42, type=int)
 
         return parent_parser
 
