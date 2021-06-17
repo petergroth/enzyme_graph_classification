@@ -32,7 +32,7 @@ if __name__ == "__main__":
 	run.wait_for_completion()
 
 	# Save resulting model and register
-	model_name = 'debug_model.pkl'
+	model_name = 'debug_model.ckpt'
 	os.makedirs('./outputs', exist_ok=True)
 	run.download_file(name="outputs/"+model_name, output_file_path='./outputs/'+model_name)
 

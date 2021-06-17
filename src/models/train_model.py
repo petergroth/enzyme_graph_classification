@@ -6,6 +6,7 @@ from src import project_dir
 import pytorch_lightning as pl
 from pytorch_lightning.callbacks import ModelCheckpoint
 import joblib
+import os
 
 def parser(lightning_class, data_class, model_class):
     """Parses command line."""
