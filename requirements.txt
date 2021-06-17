@@ -1,5 +1,5 @@
 # local package
--e git+https://github.com/petergroth/enzyme_graph_classification@main#egg=src
+git+https://github.com/petergroth/enzyme_graph_classification@main#egg=src
 
 # external requirements
 click
@@ -12,6 +12,9 @@ torch==1.8.1
 numpy
 torchmetrics
 pytorch-lightning
+wandb
+joblib
+
 
 # backwards compatibility
 pathlib2

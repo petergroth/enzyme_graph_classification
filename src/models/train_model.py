@@ -6,7 +6,8 @@ from pytorch_lightning.loggers import WandbLogger
 from src import project_dir
 import pytorch_lightning as pl
 from pytorch_lightning.callbacks import ModelCheckpoint
-
+import joblib
+import os
 
 def parser(lightning_class, data_class, model_class):
     """Parses command line."""
@@ -21,7 +22,7 @@ def parser(lightning_class, data_class, model_class):
     parser.add_argument(
         '--model_path', default=project_dir + '/models/model.pth', type=str)
     parser.add_argument('--azure', action='store_true')
-  
+
     # Training level args
     parser = pl.Trainer.add_argparse_args(parser)
 
@@ -87,6 +88,13 @@ def main():
         args.model_path)
 
     dm, classifier, trainer = test(dm, classifier, trainer)
+
+    if args.azure:
+        model_name = 'debug_model.ckpt'
+        model_file = 'outputs/'+model_name
+        os.makedirs('outputs', exist_ok=True)
+        trainer.save_checkpoint(model_file)
+        #joblib.dump(value=classifier, filename=model_file)
 
 if __name__ == '__main__':
     main()
