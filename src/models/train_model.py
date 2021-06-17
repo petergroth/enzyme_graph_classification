@@ -17,6 +17,7 @@ def parser(lightning_class, data_class, model_class):
         '--wandb_entity', default='mlops_enzyme_graph_classification')
     parser.add_argument(
         '--model_dir', default=project_dir + '/models/', type=str)
+    parser.add_argument('--azure', action='store_true')
   
     # Training level args
     parser = pl.Trainer.add_argparse_args(parser)
@@ -33,39 +34,7 @@ def parser(lightning_class, data_class, model_class):
     args = parser.parse_args()
 
     return args
-"""
-def main():
-    # Setup
-    args = parser(GraphClassifier, EnzymesDataModule, GNN)
-    wandb_logger = WandbLogger(
-        project=args.wandb_project, entity=args.wandb_entity,
-        log_model='all', config=args)
 
-    # Data
-    dm = EnzymesDataModule(**EnzymesDataModule.from_argparse_args(args))
-    dm.prepare_data()
-
-    # Model
-    model = GNN(
-        n_node_features=dm.num_features,
-        n_classes=dm.num_classes,
-        **GNN.from_argparse_args(args))
-    classifier = GraphClassifier(
-        model, **GraphClassifier.from_argparse_args(args))
-    wandb_logger.watch(classifier)
-
-    # Trainer
-    trainer = pl.Trainer.from_argparse_args(args, logger=wandb_logger)
-
-    # Train
-    dm.setup(stage='fit')
-    trainer.fit(model=classifier, datamodule=dm)
-    trainer.save_checkpoint(args.model_path)
-
-    # Test
-    dm.setup(stage='test')
-    trainer.test(datamodule=dm)
-"""
 
 def setup(args):
     wandb_logger = WandbLogger(
