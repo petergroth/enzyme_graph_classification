@@ -1,5 +1,6 @@
 import numpy as np
 import pytorch_lightning as pl
+import torch
 import torch_geometric.transforms as transforms
 from torch import manual_seed
 from torch_geometric.data import DataLoader
@@ -59,6 +60,7 @@ class EnzymesDataModule(pl.LightningDataModule):
         self.data_train = dataset[: split_idx[0]]
         self.data_val = dataset[split_idx[0]: split_idx[1]]
         self.data_test = dataset[split_idx[1]:]
+        torch.initial_seed()
 
     def train_dataloader(self):
         return DataLoader(
