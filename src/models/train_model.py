@@ -1,4 +1,5 @@
 import argparse
+import torch
 from src.models.model import GNN, GraphClassifier
 from src.data.enzymes import EnzymesDataModule
 from pytorch_lightning.loggers import WandbLogger
@@ -18,7 +19,9 @@ def parser(lightning_class, data_class, model_class):
         '--wandb_entity', default='mlops_enzyme_graph_classification')
     parser.add_argument(
         '--model_dir', default=project_dir + '/models/', type=str)
-    parser.add_argument("-azure", action='store_true')
+    parser.add_argument(
+        '--model_path', default=project_dir + '/models/model.pth', type=str)
+    parser.add_argument('--azure', action='store_true')
 
     # Training level args
     parser = pl.Trainer.add_argparse_args(parser)
@@ -47,20 +50,21 @@ def setup(args):
     dm.prepare_data()
 
     # Model
-    model = GNN(
-        n_node_features=dm.num_features,
-        n_classes=dm.num_classes,
-        **GNN.from_argparse_args(args))
+    model_kwargs = {
+        'n_node_features': dm.num_features,
+        'n_classes': dm.num_classes,
+        **GNN.from_argparse_args(args)}
+    model = GNN(**model_kwargs)
+
     classifier = GraphClassifier(
         model, **GraphClassifier.from_argparse_args(args))
     wandb_logger.watch(classifier)
 
     # Trainer
-    checkpoint_callback = ModelCheckpoint(dirpath=args.model_dir)
     trainer = pl.Trainer.from_argparse_args(
-        args, logger=wandb_logger, callbacks=[checkpoint_callback])
+        args, logger=wandb_logger)
 
-    return dm, classifier, trainer
+    return dm, classifier, trainer, model_kwargs
 
 def train(dm, classifier, trainer):
     dm.setup(stage='fit')
@@ -76,8 +80,13 @@ def test(dm, classifier, trainer):
 
 def main():
     args = parser(GraphClassifier, EnzymesDataModule, GNN)
-    dm, classifier, trainer = setup(args)
+    dm, classifier, trainer, model_kwargs = setup(args)
     dm, classifier, trainer = train(dm, classifier, trainer)
+    torch.save(
+        {'model_kwargs': model_kwargs,
+         'state_dict': classifier.model.state_dict()},
+        args.model_path)
+
     dm, classifier, trainer = test(dm, classifier, trainer)
 
     if args.azure:
