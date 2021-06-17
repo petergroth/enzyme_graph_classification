@@ -4,6 +4,7 @@ from src.data.enzymes import EnzymesDataModule
 from pytorch_lightning.loggers import WandbLogger
 from src import project_dir
 import pytorch_lightning as pl
+from pytorch_lightning.callbacks import ModelCheckpoint
 
 
 def parser(lightning_class, data_class, model_class):
@@ -15,7 +16,7 @@ def parser(lightning_class, data_class, model_class):
     parser.add_argument(
         '--wandb_entity', default='mlops_enzyme_graph_classification')
     parser.add_argument(
-        '--model_path', default=project_dir + '/models/model.pth', type=str)
+        '--model_dir', default=project_dir + '/models/', type=str)
   
     # Training level args
     parser = pl.Trainer.add_argparse_args(parser)
@@ -85,7 +86,9 @@ def setup(args):
     wandb_logger.watch(classifier)
 
     # Trainer
-    trainer = pl.Trainer.from_argparse_args(args, logger=wandb_logger)
+    checkpoint_callback = ModelCheckpoint(dirpath=args.model_dir)
+    trainer = pl.Trainer.from_argparse_args(
+        args, logger=wandb_logger, callbacks=[checkpoint_callback])
 
     return dm, classifier, trainer
 
@@ -104,10 +107,7 @@ def test(dm, classifier, trainer):
 def main():
     args = parser(GraphClassifier, EnzymesDataModule, GNN)
     dm, classifier, trainer = setup(args)
-
     dm, classifier, trainer = train(dm, classifier, trainer)
-    trainer.save_checkpoint(args.model_path)
-
     dm, classifier, trainer = test(dm, classifier, trainer)
 
 if __name__ == '__main__':
