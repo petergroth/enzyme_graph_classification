@@ -150,7 +150,7 @@ class GraphClassifier(pl.LightningModule):
         self.log("test_loss", loss)
         return self.test_metrics
 
-    def forward(self, batch, batch_idx):
+    def forward(self, batch):
         # Makes the Classifier callable
         return self.model(batch.x, batch.edge_index, batch.batch)
 
