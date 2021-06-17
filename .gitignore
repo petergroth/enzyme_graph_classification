@@ -133,3 +133,4 @@ dmypy.json
 
 wandb/
 
+azure_deployment/wandb_api_key.py
