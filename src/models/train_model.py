@@ -17,7 +17,7 @@ def parser(lightning_class, data_class, model_class):
     parser.add_argument(
         '--wandb_entity', default='mlops_enzyme_graph_classification')
     parser.add_argument(
-        '--model_path', default=project_dir + '/models/model.ckpt', type=str)
+        '--model_dir', default=project_dir + '/models/', type=str)
     parser.add_argument("-azure", action='store_true')
 
     # Training level args
@@ -82,7 +82,8 @@ def main():
 
     if args.azure:
         model_name = 'debug_model.ckpt'
-        model_file = 'models/'+model_name
+        model_file = 'outputs/'+model_name
+        os.makedirs('outputs', exist_ok=True)
         trainer.save_checkpoint(model_file)
         #joblib.dump(value=classifier, filename=model_file)
 
