@@ -12,7 +12,7 @@ from torch_geometric.nn import (
 from torchmetrics import Accuracy, MetricCollection, Precision, Recall
 
 
-class GNN(nn.Module):
+class GNN(pl.LightningModule):
     def __init__(
         self,
         n_node_features: int,
@@ -150,7 +150,7 @@ class GraphClassifier(pl.LightningModule):
         self.log("test_loss", loss)
         return self.test_metrics
 
-    def forward(self, batch, batch_idx):
+    def forward(self, batch):
         # Makes the Classifier callable
         return self.model(batch.x, batch.edge_index, batch.batch)
 
