@@ -1,5 +1,5 @@
 # local package
--e .
+-e git+https://github.com/petergroth/enzyme_graph_classification@main#egg=src
 
 # external requirements
 click

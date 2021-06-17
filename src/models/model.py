@@ -36,7 +36,8 @@ class GNN(nn.Module):
         self.gcn3 = GCNConv(
             in_channels=self.hidden_size, out_channels=self.hidden_size, normalize=True
         )
-        self.fc1 = nn.Linear(in_features=self.hidden_size, out_features=self.n_classes)
+        self.fc1 = nn.Linear(in_features=self.hidden_size, out_features=self.hidden_size)
+        self.fc2 = nn.Linear(in_features=self.hidden_size, out_features=self.n_classes)
 
         self.activation = nn.LeakyReLU()
 
@@ -65,7 +66,8 @@ class GNN(nn.Module):
         # Apply global pooling layer
         embed = self.global_pooling(x, batch)  # [batch_size, hidden_size]
         # Feed through linear layer for prediction
-        embed = self.fc1(embed)  # [batch_size, n_classes]
+        embed = self.activation(self.fc1(embed))  # [batch_size, hidden_size]
+        embed = self.fc2(embed)  # [batch_size, n_classes]
 
         return embed
     
@@ -134,8 +136,8 @@ class GraphClassifier(pl.LightningModule):
         loss = F.cross_entropy(logits, labels)
         # Logging
         log_output = self.valid_metrics(F.softmax(logits, dim=-1), labels)
-        self.log_dict(log_output, on_step=True, on_epoch=True)
-        self.log("val_loss", loss, on_step=True, on_epoch=True)
+        self.log_dict(log_output, on_step=False, on_epoch=True)
+        self.log("val_loss", loss, on_step=False, on_epoch=True)
         return
 
     def test_step(self, batch, batch_idx):
