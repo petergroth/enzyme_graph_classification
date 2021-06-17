@@ -12,7 +12,7 @@ from torch_geometric.nn import (
 from torchmetrics import Accuracy, MetricCollection, Precision, Recall
 
 
-class GNN(nn.Module):
+class GNN(pl.LightningModule):
     def __init__(
         self,
         n_node_features: int,
