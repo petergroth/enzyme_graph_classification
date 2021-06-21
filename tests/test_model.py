@@ -1,12 +1,14 @@
 import pytest
 import torch
-from src.models.model import GNN, GraphClassifier
 from torch_geometric.data import Batch, Data
+
+from src.models.model import GNN, GraphClassifier
+
 
 def test_initialization_pooling():
     with pytest.raises(ValueError):
         # Try with invalid pooling
-        model = GNN(10, 10, 32, global_pooling='global_mean_pol')
+        model = GNN(10, 10, 32, global_pooling="global_mean_pol")
 
 
 def test_forward_pass_batch_size():
@@ -39,9 +41,9 @@ def test_forward_pass():
     num_nodes = 100
     num_graph = 10
     model = GNN(n_node_features=num_node_feature, n_classes=num_class)
-    x=torch.rand(num_nodes, num_node_feature)
-    edge_index=torch.randint(num_nodes, (2, 200))
-    batch=torch.randint(num_graph, (num_nodes, ))
+    x = torch.rand(num_nodes, num_node_feature)
+    edge_index = torch.randint(num_nodes, (2, 200))
+    batch = torch.randint(num_graph, (num_nodes,))
     output = model.forward(x, edge_index, batch)
     assert list(output.shape) == [num_graph, num_class]
 
@@ -53,13 +55,14 @@ def test_training_step():
     num_nodes = 100
     model = GNN(n_node_features=num_node_feature, n_classes=num_class)
     classifier = GraphClassifier(model=model)
-    batch = Batch(batch=torch.randint(num_graph, (num_nodes, )),
-                  x=torch.rand(num_nodes, num_node_feature),
-                  edge_index=torch.randint(num_nodes, (2, 200)),
-                  y = torch.randint(num_class, (num_graph, )),
-                  ptr = torch.arange(num_graph+1))
+    batch = Batch(
+        batch=torch.randint(num_graph, (num_nodes,)),
+        x=torch.rand(num_nodes, num_node_feature),
+        edge_index=torch.randint(num_nodes, (2, 200)),
+        y=torch.randint(num_class, (num_graph,)),
+        ptr=torch.arange(num_graph + 1),
+    )
     # Create batch
     loss = classifier.training_step(batch, 0)
 
     assert type(loss.item()) == float
-

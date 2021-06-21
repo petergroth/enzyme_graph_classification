@@ -1,9 +1,10 @@
-import torch
-from src.models.train_model import train
-from src.models.model import GNN, GraphClassifier
-from src.data.enzymes import EnzymesDataModule
 import pytorch_lightning as pl
+import torch
+
 from src import project_dir
+from src.data.enzymes import EnzymesDataModule
+from src.models.model import GNN, GraphClassifier
+from src.models.train_model import train
 
 
 def test_train_weights():
