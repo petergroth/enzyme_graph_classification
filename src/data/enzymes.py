@@ -55,11 +55,10 @@ class EnzymesDataModule(pl.LightningDataModule):
             pre_transform=self.transform,
         ).shuffle()
 
-        split_idx = np.cumsum(
-            [int(len(dataset) * prop) for prop in self.splits])
+        split_idx = np.cumsum([int(len(dataset) * prop) for prop in self.splits])
         self.data_train = dataset[: split_idx[0]]
-        self.data_val = dataset[split_idx[0]: split_idx[1]]
-        self.data_test = dataset[split_idx[1]:]
+        self.data_val = dataset[split_idx[0] : split_idx[1]]
+        self.data_test = dataset[split_idx[1] :]
         torch.initial_seed()
 
     def train_dataloader(self):
@@ -92,12 +91,10 @@ class EnzymesDataModule(pl.LightningDataModule):
     @staticmethod
     def add_model_specific_args(parent_parser):
         parser = parent_parser.add_argument_group("EnzymesDataModule")
-        parser.add_argument(
-            "--data_dir", default=project_dir + "/data/", type=str)
+        parser.add_argument("--data_dir", default=project_dir + "/data/", type=str)
         parser.add_argument("--batch_size", default=64, type=int)
         parser.add_argument("--num_workers", default=0, type=int)
-        parser.add_argument(
-            "--splits", default=[0.7, 0.15, 0.15], nargs=3, type=float)
+        parser.add_argument("--splits", default=[0.7, 0.15, 0.15], nargs=3, type=float)
         parser.add_argument("--seed", default=42, type=int)
 
         return parent_parser

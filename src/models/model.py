@@ -34,13 +34,21 @@ class GNN(nn.Module):
             normalize=True,
         )
         self.gcn2 = GCNConv(
-            in_channels=self.hidden_sizes[0], out_channels=self.hidden_sizes[0], normalize=True
+            in_channels=self.hidden_sizes[0],
+            out_channels=self.hidden_sizes[0],
+            normalize=True,
         )
         self.gcn3 = GCNConv(
-            in_channels=self.hidden_sizes[0], out_channels=self.hidden_sizes[0], normalize=True
+            in_channels=self.hidden_sizes[0],
+            out_channels=self.hidden_sizes[0],
+            normalize=True,
         )
-        self.fc1 = nn.Linear(in_features=self.hidden_sizes[0], out_features=self.hidden_sizes[1])
-        self.fc2 = nn.Linear(in_features=self.hidden_sizes[1], out_features=self.n_classes)
+        self.fc1 = nn.Linear(
+            in_features=self.hidden_sizes[0], out_features=self.hidden_sizes[1]
+        )
+        self.fc2 = nn.Linear(
+            in_features=self.hidden_sizes[1], out_features=self.n_classes
+        )
 
         if global_pooling not in [
             "global_mean_pool",
@@ -54,14 +62,17 @@ class GNN(nn.Module):
         self.global_pooling = eval(global_pooling)
         self.dropout = nn.Dropout(p=self.dropout)
 
-
     def forward(self, x: torch.Tensor, edge_index: torch.Tensor, batch: torch.Tensor):
         # Check input dimension
         if x.shape[1] != self.n_node_features:
-            raise ValueError(f"Number of node features of input x is correct. Expected {self.n_node_features} but got {x.shape[1]}.")
+            raise ValueError(
+                f"Number of node features of input x is correct. Expected {self.n_node_features} but got {x.shape[1]}."
+            )
         if batch.shape[0] != x.shape[0]:
-            raise ValueError(f"Number of nodes in x is incompatible with number of nodes in batch.")
-        
+            raise ValueError(
+                f"Number of nodes in x is incompatible with number of nodes in batch."
+            )
+
         # Perform message passing
         x = self.activation(self.gcn1(x, edge_index))  # [nodes_in_batch, hidden_size]
         x = self.activation(self.gcn2(x, edge_index))  # [nodes_in_batch, hidden_size]
@@ -69,38 +80,41 @@ class GNN(nn.Module):
         # Apply global pooling layer
         embed = self.global_pooling(x, batch)  # [batch_size, hidden_size]
         # Feed through linear layer for prediction
-        embed = self.dropout(self.activation(self.fc1(embed)))  # [batch_size, hidden_size]
+        embed = self.dropout(
+            self.activation(self.fc1(embed))
+        )  # [batch_size, hidden_size]
         embed = self.fc2(embed)  # [batch_size, n_classes]
 
         return embed
-    
+
     @staticmethod
     def add_model_specific_args(parent_parser):
-        parser = parent_parser.add_argument_group('ConvNet')
-        parser.add_argument('--hidden_sizes', nargs=2, type=int, default=[32, 32])
+        parser = parent_parser.add_argument_group("ConvNet")
+        parser.add_argument("--hidden_sizes", nargs=2, type=int, default=[32, 32])
         parser.add_argument(
-            '--global_pooling',
+            "--global_pooling",
             choices=["global_mean_pool", "global_add_pool", "global_max_pool"],
-            default="global_mean_pool")
+            default="global_mean_pool",
+        )
         parser.add_argument(
-            '--activation',
-            choices=['nn.ReLU', 'nn.Tanh', 'nn.RReLU', 'nn.LeakyReLU', 'nn.ELU'],
-            default='nn.LeakyReLU')
-        parser.add_argument('--dropout', type=float, default=0.15)
-    
+            "--activation",
+            choices=["nn.ReLU", "nn.Tanh", "nn.RReLU", "nn.LeakyReLU", "nn.ELU"],
+            default="nn.LeakyReLU",
+        )
+        parser.add_argument("--dropout", type=float, default=0.15)
+
         return parent_parser
-    
+
     @staticmethod
     def from_argparse_args(namespace):
         ns_dict = vars(namespace)
         args = {
-            'hidden_sizes': ns_dict.get('hidden_sizes', [32, 32]),
-            'global_pooling': ns_dict.get(
-                'global_pooling', 'global_mean_pooling'),
-            'activation': ns_dict.get('activation', 'nn.LeakyReLU'),
-            'dropout': ns_dict.get('dropout', 0.15)
-            }
-        
+            "hidden_sizes": ns_dict.get("hidden_sizes", [32, 32]),
+            "global_pooling": ns_dict.get("global_pooling", "global_mean_pooling"),
+            "activation": ns_dict.get("activation", "nn.LeakyReLU"),
+            "dropout": ns_dict.get("dropout", 0.15),
+        }
+
         return args
 
 
@@ -136,7 +150,6 @@ class GraphClassifier(pl.LightningModule):
 
         return loss
 
-
     def configure_optimizers(self):
         return torch.optim.Adam(self.parameters(), lr=self.lr)
 
@@ -170,18 +183,19 @@ class GraphClassifier(pl.LightningModule):
         ps = ps.max(1)[1]
         ps = ps.numpy()
         return ps
-    
+
     @staticmethod
     def add_model_specific_args(parent_parser):
-        parser = parent_parser.add_argument_group('ConvNet')
-        parser.add_argument('--lr', type=float, default=3e-4)
+        parser = parent_parser.add_argument_group("ConvNet")
+        parser.add_argument("--lr", type=float, default=3e-4)
 
         return parent_parser
-    
+
     @staticmethod
     def from_argparse_args(namespace):
         ns_dict = vars(namespace)
         args = {
-            'lr': ns_dict.get('lr', 3e-4),}
-        
+            "lr": ns_dict.get("lr", 3e-4),
+        }
+
         return args
