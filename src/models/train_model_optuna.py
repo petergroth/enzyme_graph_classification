@@ -25,7 +25,7 @@ def parser(data_class):
     parser.add_argument('--n_startup_trials', default=5, type=int)
     parser.add_argument('--n_warmup_steps', default=0, type=int)
     parser.add_argument('--n_trials', default=100, type=int)
-    parser.add_argument('--timeout', default=None)
+    parser.add_argument('--timeout', default=600, type=float)
 
     # Training level args
     parser = pl.Trainer.add_argparse_args(parser)
