@@ -17,9 +17,12 @@ def parser(data_class):
         '--wandb_project', default='enzymes-test-optuna', type=str)
     parser.add_argument(
         '--wandb_entity', default='mlops_enzyme_graph_classification')
-    parser.add_argument(
-        '--model_dir', default=project_dir + '/models/', type=str)
-    parser.add_argument('--azure', action='store_true')
+    
+    # Optimization args
+    parser.add_argument('--n_startup_trials', default=5, type=int)
+    parser.add_argument('--n_warmup_steps', default=0, type=int)
+    parser.add_argument('--n_trials', default=100, type=int)
+    parser.add_argument('--timeout', default=None)
 
     # Training level args
     parser = pl.Trainer.add_argparse_args(parser)
@@ -34,8 +37,7 @@ def parser(data_class):
 
 def suggest_model(trial: optuna.trial.Trial) -> dict:
     hidden_sizes = [trial.suggest_categorical(
-        f'hidden_size_{layer}', 
-        [16, 32, 64, 128, 256, 512]) for layer in range(2)]
+        f'hidden_size_{layer}', [32, 64, 128, 256]) for layer in range(2)]
 
     global_pooling = trial.suggest_categorical(
         'global_pooling',
@@ -43,9 +45,9 @@ def suggest_model(trial: optuna.trial.Trial) -> dict:
 
     activation = trial.suggest_categorical(
         'activation',
-        ['nn.ReLU', 'nn.Tanh', 'nn.RReLU', 'nn.LeakyReLU', 'nn.ELU'])
+        ['nn.ReLU', 'nn.LeakyReLU'])
 
-    dropout = trial.suggest_float('dropout', 0, 1)
+    dropout = trial.suggest_float('dropout', 0, 0.5)
 
     model_kwargs = {
         'hidden_sizes': hidden_sizes,
@@ -65,8 +67,8 @@ class Objective(object):
     def __call__(self, trial):
         # Hyper parameters
         batch_size = trial.suggest_categorical(
-            'batch_size', [4, 8, 16, 32, 64])
-        lr = trial.suggest_float('lr', 1e-6, 1e-1)
+            'batch_size', [8, 16, 32])
+        lr = trial.suggest_float('lr', 1e-4, 1e-1)
         model_kwargs = suggest_model(trial)
         
         self.args.batch_size = batch_size
@@ -112,10 +114,10 @@ class Objective(object):
 def main():
     args = parser(EnzymesDataModule)
 
-    pruner = optuna.pruners.MedianPruner(n_warmup_steps=50)
+    pruner = optuna.pruners.MedianPruner(
+        n_startup_trials=args.n_startup_trials, n_warmup_steps=args.n_warmup_steps)
     study = optuna.create_study(direction="maximize", pruner=pruner)
-    study.optimize(Objective(args), n_trials=100, timeout=600)
-
+    study.optimize(Objective(args), n_trials=args.n_trials, timeout=args.timeout)
 
     # Print stats
     print("Number of finished trials: {}".format(len(study.trials)))
