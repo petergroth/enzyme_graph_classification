@@ -1,6 +1,5 @@
 import pytorch_lightning as pl
 import torch
-import torchmetrics
 from torch import nn
 from torch.nn import functional as F
 from torch_geometric.nn import (
@@ -12,34 +11,36 @@ from torch_geometric.nn import (
 from torchmetrics import Accuracy, MetricCollection, Precision, Recall
 
 
-class GNN(pl.LightningModule):
+class GNN(nn.Module):
     def __init__(
         self,
         n_node_features: int,
         n_classes: int,
-        hidden_size: int = 32,
+        hidden_sizes: list = [32, 32],
         global_pooling: str = "global_mean_pool",
+        activation: str = "nn.LeakyReLU",
+        dropout: float = 0.15,
     ):
         super(GNN, self).__init__()
         self.n_node_features = n_node_features
         self.n_classes = n_classes
-        self.hidden_size = hidden_size
+        self.hidden_sizes = hidden_sizes
+        self.activation = eval(activation)()
+        self.dropout = dropout
 
         self.gcn1 = GCNConv(
             in_channels=self.n_node_features,
-            out_channels=self.hidden_size,
+            out_channels=self.hidden_sizes[0],
             normalize=True,
         )
         self.gcn2 = GCNConv(
-            in_channels=self.hidden_size, out_channels=self.hidden_size, normalize=True
+            in_channels=self.hidden_sizes[0], out_channels=self.hidden_sizes[0], normalize=True
         )
         self.gcn3 = GCNConv(
-            in_channels=self.hidden_size, out_channels=self.hidden_size, normalize=True
+            in_channels=self.hidden_sizes[0], out_channels=self.hidden_sizes[0], normalize=True
         )
-        self.fc1 = nn.Linear(in_features=self.hidden_size, out_features=self.hidden_size)
-        self.fc2 = nn.Linear(in_features=self.hidden_size, out_features=self.n_classes)
-
-        self.activation = nn.LeakyReLU()
+        self.fc1 = nn.Linear(in_features=self.hidden_sizes[0], out_features=self.hidden_sizes[1])
+        self.fc2 = nn.Linear(in_features=self.hidden_sizes[1], out_features=self.n_classes)
 
         if global_pooling not in [
             "global_mean_pool",
@@ -51,14 +52,16 @@ class GNN(pl.LightningModule):
                 "'global_max_pool']."
             )
         self.global_pooling = eval(global_pooling)
+        self.dropout = nn.Dropout(p=self.dropout)
 
-    # TODO: Consider different hidden_size for gcn vs fc1
+
     def forward(self, x: torch.Tensor, edge_index: torch.Tensor, batch: torch.Tensor):
         # Check input dimension
         if x.shape[1] != self.n_node_features:
             raise ValueError(f"Number of node features of input x is correct. Expected {self.n_node_features} but got {x.shape[1]}.")
         if batch.shape[0] != x.shape[0]:
             raise ValueError(f"Number of nodes in x is incompatible with number of nodes in batch.")
+        
         # Perform message passing
         x = self.activation(self.gcn1(x, edge_index))  # [nodes_in_batch, hidden_size]
         x = self.activation(self.gcn2(x, edge_index))  # [nodes_in_batch, hidden_size]
@@ -66,7 +69,7 @@ class GNN(pl.LightningModule):
         # Apply global pooling layer
         embed = self.global_pooling(x, batch)  # [batch_size, hidden_size]
         # Feed through linear layer for prediction
-        embed = self.activation(self.fc1(embed))  # [batch_size, hidden_size]
+        embed = self.dropout(self.activation(self.fc1(embed)))  # [batch_size, hidden_size]
         embed = self.fc2(embed)  # [batch_size, n_classes]
 
         return embed
@@ -74,11 +77,16 @@ class GNN(pl.LightningModule):
     @staticmethod
     def add_model_specific_args(parent_parser):
         parser = parent_parser.add_argument_group('ConvNet')
-        parser.add_argument('--hidden_size', type=int, default=32)
+        parser.add_argument('--hidden_sizes', nargs=2, type=list, default=[32, 32])
         parser.add_argument(
             '--global_pooling',
             choices=["global_mean_pool", "global_add_pool", "global_max_pool"],
             default="global_mean_pool")
+        parser.add_argument(
+            '--activation',
+            choices=['nn.ReLU', 'nn.Tanh', 'nn.RReLU', 'nn.LeakyReLU', 'nn.ELU'],
+            default='nn.LeakyReLU')
+        parser.add_argument('--dropout', type=float, default=0.15)
     
         return parent_parser
     
@@ -86,9 +94,11 @@ class GNN(pl.LightningModule):
     def from_argparse_args(namespace):
         ns_dict = vars(namespace)
         args = {
-            'hidden_size': ns_dict.get('hidden_size', 32),
+            'hidden_sizes': ns_dict.get('hidden_sizes', [32, 32]),
             'global_pooling': ns_dict.get(
-                'global_pooling', 'global_mean_pooling')
+                'global_pooling', 'global_mean_pooling'),
+            'activation': ns_dict.get('activation', 'nn.LeakyReLU'),
+            'dropout': ns_dict.get('dropout', 0.15)
             }
         
         return args
@@ -121,8 +131,8 @@ class GraphClassifier(pl.LightningModule):
         loss = F.cross_entropy(logits, labels)
         # Logging
         log_output = self.train_metrics(F.softmax(logits, dim=-1), labels)
-        self.log_dict(log_output, on_step=True, on_epoch=True)
-        self.log("train_loss", loss, on_step=True, on_epoch=True)
+        self.log_dict(log_output, on_step=False, on_epoch=True)
+        self.log("train_loss", loss, on_step=False, on_epoch=True)
 
         return loss
 
@@ -146,7 +156,7 @@ class GraphClassifier(pl.LightningModule):
         loss = F.cross_entropy(logits, labels)
         # Logging
         log_output = self.test_metrics(F.softmax(logits, dim=-1), labels)
-        self.log_dict(log_output, on_step=True, on_epoch=True)
+        self.log_dict(log_output, on_step=False, on_epoch=True)
         self.log("test_loss", loss)
         return self.test_metrics
 
