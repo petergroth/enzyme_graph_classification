@@ -19,7 +19,7 @@ def parser(lightning_class, data_class, model_class):
         '--model_dir', default=project_dir + '/models/', type=str)
     parser.add_argument(
         '--model_path', default=project_dir + '/models/model.pth', type=str)
-    parser.add_argument('--azure', action='store_true')
+    parser.add_argument('-azure', action='store_true')
 
     # Training level args
     parser = pl.Trainer.add_argparse_args(parser)
@@ -86,12 +86,18 @@ def main():
         args.model_path)
 
     dm, classifier, trainer = test(dm, classifier, trainer)
-
+    print(args.azure)
     if args.azure:
         model_name = 'debug_model.ckpt'
         model_file = 'outputs/'+model_name
         os.makedirs('outputs', exist_ok=True)
-        trainer.save_checkpoint(model_file)
+        
+        #trainer.save_checkpoint(model_file)
+        torch.save(
+                    {'model_kwargs': model_kwargs,
+                    'state_dict': classifier.model.state_dict()},
+                    model_file)
+
 
 if __name__ == '__main__':
     main()

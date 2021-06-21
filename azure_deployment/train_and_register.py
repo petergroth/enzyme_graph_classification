@@ -22,7 +22,7 @@ if __name__ == "__main__":
 	# Define configuration file
 	config = ScriptRunConfig(source_directory='./src/models/',
 							 script='train_model.py',
-							 arguments=['--max_steps', 1, '--hidden_size', 16, '--batch_size', 16, '-azure'],
+							 arguments=['--max_steps', 1, '--hidden_sizes', 16, 16, '--batch_size', 16, '-azure'],
 							 environment=env,
 							 compute_target='compute-v1')
 

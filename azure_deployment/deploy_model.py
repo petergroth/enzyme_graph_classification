@@ -17,12 +17,12 @@ env.environment_variables = {'WANDB_API_KEY': WANDB_API_KEY}
 
 # Configure the scoring environment
 inference_config = InferenceConfig(runtime= "python",
-                                   entry_script='azure_deployment/',
+                                   entry_script='azure_deployment/azure_scoring_script.py',
                                    environment=env)
 
 deployment_config = AciWebservice.deploy_configuration(cpu_cores = 1, memory_gb = 1)
 
-service_name = "mnist-service-v2"
+service_name = "egc_test_deploy"
 
 service = Model.deploy(ws, service_name, [model], inference_config, deployment_config)
 

@@ -25,7 +25,6 @@ dependencies:
   - joblib
   - pathlib2
   - -e git+https://github.com/petergroth/enzyme_graph_classification@main#egg=src
-  - azureml-defaults
   - torch==1.8.1
   - torch-scatter
   - torch-sparse

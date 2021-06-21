@@ -9,7 +9,8 @@ from src.models.model import GNN
 def init():
     global model
     # Get the path to the deployed model file and load it
-    model_dict = torch.load('SOME_MODEL_PATH')
+    model_path = Model.get_model_path('debug_model.ckpt')
+    model_dict = torch.load(model_path)
     model = GNN(**model_dict['model_kwargs'])
     model.load_state_dict(model_dict['state_dict'])
     model.eval()
@@ -24,6 +25,6 @@ def run(raw_data):
 
     # Get a prediction from the model
     predictions = model.forward(x, edge_index, batch).detach().squeeze()
-    predictions = predictions.numpy()
+    predictions = predictions.numpy().tolist()
 
     return json.dumps(predictions)

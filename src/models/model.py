@@ -77,7 +77,7 @@ class GNN(nn.Module):
     @staticmethod
     def add_model_specific_args(parent_parser):
         parser = parent_parser.add_argument_group('ConvNet')
-        parser.add_argument('--hidden_sizes', nargs=2, type=list, default=[32, 32])
+        parser.add_argument('--hidden_sizes', nargs=2, type=int, default=[32, 32])
         parser.add_argument(
             '--global_pooling',
             choices=["global_mean_pool", "global_add_pool", "global_max_pool"],
