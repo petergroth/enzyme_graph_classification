@@ -5,8 +5,6 @@ from src.data.enzymes import EnzymesDataModule
 from pytorch_lightning.loggers import WandbLogger
 from src import project_dir
 import pytorch_lightning as pl
-from pytorch_lightning.callbacks import ModelCheckpoint
-import joblib
 import os
 
 def parser(lightning_class, data_class, model_class):
@@ -94,7 +92,6 @@ def main():
         model_file = 'outputs/'+model_name
         os.makedirs('outputs', exist_ok=True)
         trainer.save_checkpoint(model_file)
-        #joblib.dump(value=classifier, filename=model_file)
 
 if __name__ == '__main__':
     main()
