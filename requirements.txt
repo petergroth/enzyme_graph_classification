@@ -14,7 +14,13 @@ torchmetrics
 pytorch-lightning
 wandb
 joblib
-
+torch-scatter
+torch-cluster
+torch-sparse
+torch-spline-conv
+torch-geometric
+azureml-defaults>=1.0.45
+optuna
 
 # backwards compatibility
 pathlib2

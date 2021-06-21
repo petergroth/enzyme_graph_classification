@@ -10,7 +10,7 @@ if __name__=="__main__":
 	ws = Workspace.from_config()
 
 	# Create environment
-	env = Environment.from_pip_requirements(name="EGC_env",
+	env = Environment.from_pip_requirements(name="EGC_deployment",
 											file_path="requirements.txt")
 
 
@@ -23,20 +23,11 @@ if __name__=="__main__":
 		conda_packages=['pip==21.1.2'],
 		pip_packages=pip_packages
 	)
+
 	conda_dep.set_pip_option('-e git+https://github.com/petergroth/enzyme_graph_classification@main#egg=src')
-	#conda_dep.add_pip_package('azureml-defaults')
-	conda_dep.add_pip_package('torch==1.8.1')
-	conda_dep.add_pip_package('torch-scatter')
-	conda_dep.add_pip_package('torch-sparse')
-	conda_dep.add_pip_package('torch-cluster')
-	conda_dep.add_pip_package('torch-spline-conv')
-	conda_dep.add_pip_package('torch-geometric')
 	conda_dep.set_pip_option('-f https://pytorch-geometric.com/whl/torch-1.8.1+cpu.html')
 
 	env.python.conda_dependencies = conda_dep
-
-	# Save environment
-	env.save_to_directory(path="azure_deployment/EGC_env.env", overwrite=True)
 
 	env.register(workspace=ws)
 	#build = env.build_local(workspace=ws, useDocker=True, pushImageToWorkspaceAcr=True)

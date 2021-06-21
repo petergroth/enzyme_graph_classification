@@ -1,5 +1,5 @@
 {
-    "name": "EGC_env",
+    "name": "EGC_deployment",
     "version": null,
     "environmentVariables": {
         "EXAMPLE_ENV_VAR": "EXAMPLE_VALUE"
