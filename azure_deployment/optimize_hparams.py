@@ -1,13 +1,8 @@
-# run-azure.py
 from azureml.core import Workspace
 from azureml.core import Experiment
 from azureml.core import Environment
 from azureml.core import ScriptRunConfig
-from azureml.core.conda_dependencies import CondaDependencies
-from azureml.core.run import Run
-from azureml.core import Model
 from wandb_api_key import WANDB_API_KEY, IMAGE
-import os
 
 COMPUTE_TARGET = 'MLOpsTest'
 
