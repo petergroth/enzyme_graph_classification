@@ -17,7 +17,6 @@ def parser(lightning_class, data_class, model_class):
     # Progam level args
     parser.add_argument("--wandb_project", default="enzymes-test", type=str)
     parser.add_argument("--wandb_entity", default="mlops_enzyme_graph_classification")
-    parser.add_argument("--model_dir", default=project_dir + "/models/", type=str)
     parser.add_argument(
         "--model_path", default=project_dir + "/models/model.pth", type=str
     )
