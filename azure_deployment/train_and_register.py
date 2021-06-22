@@ -7,7 +7,7 @@ from azureml.core.run import Run
 from wandb_api_key import WANDB_API_KEY
 
 if __name__ == "__main__":
-    # Sepcify model name. Must agree with name in train_model.py
+    # Specify model name. Must agree with name in train_model.py
     model_name = "debug_model.ckpt"
     compute_target = "compute-v1"
 
@@ -26,11 +26,16 @@ if __name__ == "__main__":
         arguments=[
             "--max_steps",
             1,
-            "--hidden_sizes",
-            16,
-            16,
+            "--conv_channels",
+            64,
+            "--fc_size",
+            64
             "--batch_size",
             16,
+            "--global_pooling",
+            "global_max_pool",
+            "--activation",
+            "nn.ReLU"
             "-azure",
         ],
         environment=env,
