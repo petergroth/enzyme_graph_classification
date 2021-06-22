@@ -16,7 +16,8 @@ class GNN(nn.Module):
         self,
         n_node_features: int,
         n_classes: int,
-        hidden_sizes: list = [32, 32],
+        conv_channels: int = 32,
+        fc_size: int = 32,
         global_pooling: str = "global_mean_pool",
         activation: str = "nn.LeakyReLU",
         dropout: float = 0.15,
@@ -24,30 +25,31 @@ class GNN(nn.Module):
         super(GNN, self).__init__()
         self.n_node_features = n_node_features
         self.n_classes = n_classes
-        self.hidden_sizes = hidden_sizes
+        self.conv_channels = conv_channels
+        self.fc_size = fc_size
         self.activation = eval(activation)()
         self.dropout = dropout
 
         self.gcn1 = GCNConv(
             in_channels=self.n_node_features,
-            out_channels=self.hidden_sizes[0],
+            out_channels=self.conv_channels,
             normalize=True,
         )
         self.gcn2 = GCNConv(
-            in_channels=self.hidden_sizes[0],
-            out_channels=self.hidden_sizes[0],
+            in_channels=self.conv_channels,
+            out_channels=self.conv_channels,
             normalize=True,
         )
         self.gcn3 = GCNConv(
-            in_channels=self.hidden_sizes[0],
-            out_channels=self.hidden_sizes[0],
+            in_channels=self.conv_channels,
+            out_channels=self.conv_channels,
             normalize=True,
         )
         self.fc1 = nn.Linear(
-            in_features=self.hidden_sizes[0], out_features=self.hidden_sizes[1]
+            in_features=self.conv_channels, out_features=self.fc_size
         )
         self.fc2 = nn.Linear(
-            in_features=self.hidden_sizes[1], out_features=self.n_classes
+            in_features=self.fc_size, out_features=self.n_classes
         )
 
         if global_pooling not in [
@@ -90,7 +92,8 @@ class GNN(nn.Module):
     @staticmethod
     def add_model_specific_args(parent_parser):
         parser = parent_parser.add_argument_group("ConvNet")
-        parser.add_argument("--hidden_sizes", nargs=2, type=int, default=[32, 32])
+        parser.add_argument("--conv_channels", type=int, default=32)
+        parser.add_argument("--fc_size", type=int, default=32)
         parser.add_argument(
             "--global_pooling",
             choices=["global_mean_pool", "global_add_pool", "global_max_pool"],
@@ -109,7 +112,8 @@ class GNN(nn.Module):
     def from_argparse_args(namespace):
         ns_dict = vars(namespace)
         args = {
-            "hidden_sizes": ns_dict.get("hidden_sizes", [32, 32]),
+            "conv_channels": ns_dict.get("conv_channels", 32),
+            "fc_size": ns_dict.get("fc_size", 32),
             "global_pooling": ns_dict.get("global_pooling", "global_mean_pooling"),
             "activation": ns_dict.get("activation", "nn.LeakyReLU"),
             "dropout": ns_dict.get("dropout", 0.15),
@@ -129,8 +133,6 @@ class GraphClassifier(pl.LightningModule):
         metrics = MetricCollection(
             [
                 Accuracy(num_classes=self.num_classes),
-                Precision(num_classes=self.num_classes),
-                Recall(num_classes=self.num_classes),
             ]
         )
         self.train_metrics = metrics.clone(prefix="train_")
