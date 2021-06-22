@@ -18,7 +18,7 @@ class EnzymesDataModule(pl.LightningDataModule):
         seed=42,
     ):
         super(EnzymesDataModule, self).__init__()
-        self.data_dir = project_dir+data_dir
+        self.data_dir = project_dir + data_dir
         self.batch_size = batch_size
         self.num_workers = num_workers
         self.splits = splits

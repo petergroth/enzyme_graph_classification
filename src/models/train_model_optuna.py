@@ -3,6 +3,7 @@ import argparse
 import optuna
 import pytorch_lightning as pl
 from optuna.integration import PyTorchLightningPruningCallback
+from pytorch_lightning.callbacks.early_stopping import EarlyStopping
 from pytorch_lightning.loggers import WandbLogger
 
 from src.data.enzymes import EnzymesDataModule
@@ -28,6 +29,10 @@ def parser(data_class):
     # Training level args
     parser = pl.Trainer.add_argparse_args(parser)
 
+    # Early stopping
+    parser.add_argument('--patience', type=int, default=50)
+    parser.add_argument('--min_delta', type=float, default=0)
+
     # Data level args
     parser = data_class.add_model_specific_args(parser)
 
@@ -52,7 +57,7 @@ def suggest_model(trial: optuna.trial.Trial) -> dict:
         'activation',
         ["nn.ReLU", "nn.Tanh", "nn.RReLU", "nn.LeakyReLU", "nn.ELU"])
 
-    dropout = trial.suggest_float('dropout', 0, 0.6)
+    dropout = trial.suggest_float('dropout', 0, 0.5)
 
 
     model_kwargs = {
@@ -101,6 +106,13 @@ class Objective(object):
         classifier = GraphClassifier(model, lr=lr)
         wandb_logger.watch(classifier)
 
+        # Early stopping
+        early_stop_callback = EarlyStopping(
+            monitor='val_Accuracy',
+            min_delta=self.args.min_delta,
+            patience=self.args.patience,
+            mode='max')
+
         # Pruning
         pruning_callback = PyTorchLightningPruningCallback(
             trial, monitor="val_Accuracy"
@@ -108,7 +120,9 @@ class Objective(object):
 
         # Trainer
         trainer = pl.Trainer.from_argparse_args(
-            self.args, callbacks=[pruning_callback], logger=wandb_logger
+            self.args,
+            callbacks=[pruning_callback, early_stop_callback],
+            logger=wandb_logger
         )
 
         dm.setup(stage="fit")
