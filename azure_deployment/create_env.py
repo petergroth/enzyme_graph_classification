@@ -1,16 +1,28 @@
 import os
-
+import argparse
 from azureml.core import Environment, Workspace
 from azureml.core.conda_dependencies import CondaDependencies
 from wandb_api_key import WANDB_API_KEY
+import sys
+
+def parser():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--train', dest='train', action='store_true')
+    parser.add_argument('--deploy', dest='train', action='store_false')
+    args = parser.parse_args()
+    return args
 
 if __name__ == "__main__":
+    # Separate envs for training/deployment due to conflicting dependencies
+    args = parser()
+    env_name = "EGC_train" if args.train else "EGC_deployment"
+    print(f'Building environment: {env_name}')
+    
     # Get workspace
     ws = Workspace.from_config()
-
     # Create environment
     env = Environment.from_pip_requirements(
-        name="EGC_deployment", file_path="requirements.txt"
+        name=env_name, file_path="requirements.txt"
     )
 
     # Parse pip requirements
@@ -26,7 +38,8 @@ if __name__ == "__main__":
         conda_packages=["pip==21.1.2"],
         pip_packages=pip_packages,
     )
-
+    if not args.train:
+        conda_dep.add_pip_package('azureml-defaults>=1.0.45')
     conda_dep.set_pip_option(
         "-e git+https://github.com/petergroth/enzyme_graph_classification@main#egg=src"
     )

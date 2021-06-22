@@ -4,15 +4,19 @@ import os
 from azureml.core import Environment, Experiment, Model, ScriptRunConfig, Workspace
 from azureml.core.conda_dependencies import CondaDependencies
 from azureml.core.run import Run
-from wandb_api_key import IMAGE, WANDB_API_KEY
+from wandb_api_key import WANDB_API_KEY
 
 if __name__ == "__main__":
+    # Sepcify model name. Must agree with name in train_model.py
+    model_name = "debug_model.ckpt"
+    compute_target = "compute-v1"
+
     # Setup experiment
     ws = Workspace.from_config()
-    experiment = Experiment(workspace=ws, name="EGC_debug")
+    experiment = Experiment(workspace=ws, name="EGC_training_run")
 
     # Setup environment
-    env = Environment.from_docker_image(name="EGC_env", image=IMAGE)
+    env = Environment.get(workspace=ws, name="EGC_train")
     env.environment_variables = {"WANDB_API_KEY": WANDB_API_KEY}
 
     # Define configuration file
@@ -30,7 +34,7 @@ if __name__ == "__main__":
             "-azure",
         ],
         environment=env,
-        compute_target="compute-v1",
+        compute_target=compute_target,
     )
 
     # Submit experiment and wait for completion
@@ -38,7 +42,6 @@ if __name__ == "__main__":
     run.wait_for_completion()
 
     # Save resulting model and register
-    model_name = "debug_model.ckpt"
     os.makedirs("./outputs", exist_ok=True)
     run.download_file(
         name="outputs/" + model_name, output_file_path="./outputs/" + model_name
