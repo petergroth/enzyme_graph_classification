@@ -3,10 +3,8 @@ import argparse
 import optuna
 import pytorch_lightning as pl
 from optuna.integration import PyTorchLightningPruningCallback
-from pytorch_lightning.callbacks import EarlyStopping
 from pytorch_lightning.loggers import WandbLogger
 
-from src import project_dir
 from src.data.enzymes import EnzymesDataModule
 from src.models.model import GNN, GraphClassifier
 
@@ -25,7 +23,7 @@ def parser(data_class):
     parser.add_argument('--n_startup_trials', default=5, type=int)
     parser.add_argument('--n_warmup_steps', default=0, type=int)
     parser.add_argument('--n_trials', default=100, type=int)
-    parser.add_argument('--timeout', default=None)
+    parser.add_argument('--timeout', default=600, type=float)
 
     # Training level args
     parser = pl.Trainer.add_argparse_args(parser)
@@ -40,23 +38,26 @@ def parser(data_class):
 
 def suggest_model(trial: optuna.trial.Trial) -> dict:
 
-    hidden_sizes = [trial.suggest_categorical(
-        f'hidden_size_{layer}', [32, 64, 128, 256]) for layer in range(2)]
-
+    conv_channels = trial.suggest_categorical(
+        'conv_channels', [32, 64, 128, 256])
+    
+    fc_size = trial.suggest_categorical('fc_size', [32, 64, 128, 256])
 
     global_pooling = trial.suggest_categorical(
-        "global_pooling", ["global_mean_pool", "global_add_pool", "global_max_pool"]
+        "global_pooling",
+        ["global_mean_pool", "global_add_pool", "global_max_pool"]
     )
 
     activation = trial.suggest_categorical(
         'activation',
-        ['nn.ReLU', 'nn.LeakyReLU'])
+        ["nn.ReLU", "nn.Tanh", "nn.RReLU", "nn.LeakyReLU", "nn.ELU"])
 
-    dropout = trial.suggest_float('dropout', 0, 0.5)
+    dropout = trial.suggest_float('dropout', 0, 0.6)
 
 
     model_kwargs = {
-        "hidden_sizes": hidden_sizes,
+        "conv_channels": conv_channels,
+        "fc_size": fc_size,
         "global_pooling": global_pooling,
         "activation": activation,
         "dropout": dropout,
@@ -73,7 +74,7 @@ class Objective(object):
         # Hyper parameters
         batch_size = trial.suggest_categorical(
             'batch_size', [8, 16, 32])
-        lr = trial.suggest_float('lr', 1e-4, 1e-1)
+        lr = trial.suggest_float('lr', 1e-5, 1e-1)
         model_kwargs = suggest_model(trial)
 
         self.args.batch_size = batch_size
