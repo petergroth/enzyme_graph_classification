@@ -1,0 +1,5 @@
+conv_channels: 64
+fc_size: 128
+global_pooling: "global_add_pool"
+activation: "nn.RReLU"
+dropout: 0.1341

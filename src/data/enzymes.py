@@ -2,7 +2,6 @@ import numpy as np
 import pytorch_lightning as pl
 import torch
 import torch_geometric.transforms as transforms
-from torch import manual_seed
 from torch_geometric.data import DataLoader
 from torch_geometric.datasets import TUDataset
 
@@ -12,14 +11,14 @@ from src import project_dir
 class EnzymesDataModule(pl.LightningDataModule):
     def __init__(
         self,
-        data_dir="data/",
+        data_dir="/data/",
         batch_size=64,
         num_workers=0,
         splits=[0.7, 0.15, 0.15],
         seed=42,
     ):
         super(EnzymesDataModule, self).__init__()
-        self.data_dir = data_dir
+        self.data_dir = project_dir+data_dir
         self.batch_size = batch_size
         self.num_workers = num_workers
         self.splits = splits
@@ -46,7 +45,8 @@ class EnzymesDataModule(pl.LightningDataModule):
         )
 
     def setup(self, stage=None):
-        manual_seed(self.seed)
+        initial_seed = torch.initial_seed()
+        torch.manual_seed(self.seed)
         dataset = TUDataset(
             root=self.data_dir,
             name="ENZYMES",
@@ -59,7 +59,7 @@ class EnzymesDataModule(pl.LightningDataModule):
         self.data_train = dataset[: split_idx[0]]
         self.data_val = dataset[split_idx[0] : split_idx[1]]
         self.data_test = dataset[split_idx[1] :]
-        torch.initial_seed()
+        torch.manual_seed(initial_seed)
 
     def train_dataloader(self):
         return DataLoader(

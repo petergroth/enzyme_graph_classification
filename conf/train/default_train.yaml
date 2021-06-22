@@ -1,0 +1,10 @@
+misc:
+  lr: 0.0007514
+  wandb_project: "enzymes-hydra"
+  wandb_entity: "mlops_enzyme_graph_classification"
+  model_path: "/models/model.pth"
+  seed: 42
+  azure: False
+trainer:
+  max_epochs: 300
+
