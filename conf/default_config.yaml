@@ -1,0 +1,4 @@
+defaults:
+  - model: default_gnn
+  - train: default_train
+  - dataset: default_enzymes
