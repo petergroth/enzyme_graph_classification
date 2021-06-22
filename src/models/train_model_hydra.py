@@ -1,8 +1,7 @@
-import argparse
 import os
 
 import hydra
-from omegaconf import DictConfig, OmegaConf
+from omegaconf import DictConfig
 import pytorch_lightning as pl
 import torch
 from pytorch_lightning.loggers import WandbLogger
@@ -10,7 +9,6 @@ from pytorch_lightning.loggers import WandbLogger
 from src import project_dir
 from src.data.enzymes import EnzymesDataModule
 from src.models.model import GNN, GraphClassifier
-
 
 def setup(cfg):
     # Setup seed
@@ -60,9 +58,8 @@ def test(dm, classifier, trainer):
     return dm, classifier, trainer
 
 
-@hydra.main(config_path=project_dir+"/conf", config_name="default_config.yaml")
-def main(cfg: DictConfig) -> None:
-    print(OmegaConf.to_yaml(cfg))
+@hydra.main(config_path=project_dir+'/conf', config_name='default_config.yaml')
+def main(cfg: DictConfig):  
     dm, classifier, trainer, model_kwargs = setup(cfg)
     dm, classifier, trainer = train(dm, classifier, trainer)
     torch.save(
@@ -76,8 +73,10 @@ def main(cfg: DictConfig) -> None:
         model_name = os.path.basename(cfg.train.misc.model_path)
         model_file = "outputs/" + model_name
         os.makedirs("outputs", exist_ok=True)
+
         torch.save(
-            {"model_kwargs": model_kwargs, "state_dict": classifier.model.state_dict()},
+            {"model_kwargs": model_kwargs,
+            "state_dict": classifier.model.state_dict()},
             model_file,
         )
 
