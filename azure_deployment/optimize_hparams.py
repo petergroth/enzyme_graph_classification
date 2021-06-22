@@ -4,7 +4,7 @@ from azureml.core import Environment
 from azureml.core import ScriptRunConfig
 from wandb_api_key import WANDB_API_KEY
 
-COMPUTE_TARGET = 'MLOpsTest'
+COMPUTE_TARGET = 'compute-v1'
 
 if __name__ == "__main__":
 	# Setup experiment
@@ -13,14 +13,15 @@ if __name__ == "__main__":
 
 	# Setup environment
 	env = Environment.get(workspace=ws, name="EGC_train")
-    env.environment_variables = {"WANDB_API_KEY": WANDB_API_KEY}
+	env.environment_variables = {"WANDB_API_KEY": WANDB_API_KEY}
 
 	args = [
 		'--num_workers', 2,
-		'--n_startup_trials', 3,
+		'--n_startup_trials', 5,
 		'--n_warmup_steps', 50,
 		'--n_trials', 100,
-		'--timeout', 10000]
+		'--timeout', 36000,
+		'--max_epochs', 300]
 	
 	# Define configuration file
 	config = ScriptRunConfig(source_directory='.',
@@ -32,6 +33,6 @@ if __name__ == "__main__":
 
 	# Submit experiment and wait for completion
 	run = experiment.submit(config)
-	run.wait_for_completion()
+	#run.wait_for_completion()
 
 	
