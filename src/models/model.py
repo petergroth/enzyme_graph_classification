@@ -133,8 +133,6 @@ class GraphClassifier(pl.LightningModule):
         metrics = MetricCollection(
             [
                 Accuracy(num_classes=self.num_classes),
-                Precision(num_classes=self.num_classes),
-                Recall(num_classes=self.num_classes),
             ]
         )
         self.train_metrics = metrics.clone(prefix="train_")
