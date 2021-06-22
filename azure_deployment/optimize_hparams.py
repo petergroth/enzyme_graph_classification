@@ -2,7 +2,7 @@ from azureml.core import Workspace
 from azureml.core import Experiment
 from azureml.core import Environment
 from azureml.core import ScriptRunConfig
-from wandb_api_key import WANDB_API_KEY, IMAGE
+from wandb_api_key import WANDB_API_KEY
 
 COMPUTE_TARGET = 'MLOpsTest'
 
@@ -12,8 +12,8 @@ if __name__ == "__main__":
 	experiment = Experiment(workspace=ws, name='EGC_hyperparam_opt')
 
 	# Setup environment
-	env = Environment.from_docker_image(name="EGC_env", image=IMAGE)
-	env.environment_variables = {'WANDB_API_KEY': WANDB_API_KEY}
+	env = Environment.get(workspace=ws, name="EGC_train")
+    env.environment_variables = {"WANDB_API_KEY": WANDB_API_KEY}
 
 	args = [
 		'--num_workers', 2,
