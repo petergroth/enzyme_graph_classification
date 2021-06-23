@@ -46,10 +46,10 @@ class GNN(nn.Module):
         self.fc2 = nn.Linear(
             in_features=self.fc_size, out_features=self.n_classes)
 
-        if global_pooling not in [
-            "global_mean_pool",
-            "global_add_pool",
-            "global_max_pool",
+        if eval(global_pooling) not in [
+            global_mean_pool,
+            global_add_pool,
+            global_max_pool,
         ]:
             raise ValueError(
                 "Invalid global pooling. Must be one of {'global_mean_pool', "
@@ -59,10 +59,7 @@ class GNN(nn.Module):
         self.dropout = nn.Dropout(p=self.dropout)
 
     def forward(
-        self,
-        x: torch.Tensor,
-        edge_index: torch.Tensor,
-        batch: torch.Tensor
+        self, x: torch.Tensor, edge_index: torch.Tensor, batch: torch.Tensor
     ):
         # Check input dimension
         if x.shape[1] != self.n_node_features:
@@ -102,8 +99,8 @@ class GNN(nn.Module):
         )
         parser.add_argument(
             "--activation",
-            choices=[
-                "nn.ReLU", "nn.Tanh", "nn.RReLU", "nn.LeakyReLU", "nn.ELU"],
+            choices=["nn.ReLU", "nn.Tanh", "nn.RReLU", "nn.LeakyReLU",
+                     "nn.ELU"],
             default="nn.LeakyReLU",
         )
         parser.add_argument("--dropout", type=float, default=0.15)

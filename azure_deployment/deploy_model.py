@@ -22,7 +22,8 @@ inference_config = InferenceConfig(
     entry_script="azure_deployment/azure_scoring_script.py", environment=env
 )
 
-deployment_config = AciWebservice.deploy_configuration(cpu_cores=1, memory_gb=1)
+deployment_config = AciWebservice.deploy_configuration(
+    cpu_cores=1, memory_gb=1)
 # deployment_config = LocalWebservice.deploy_configuration(port=6789)
 
 service = Model.deploy(

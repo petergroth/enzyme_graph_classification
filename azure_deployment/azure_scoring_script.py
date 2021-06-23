@@ -1,8 +1,8 @@
 import json
 
 import torch
-from azureml.core.model import Model
 
+from azureml.core.model import Model
 from src.models.model import GNN
 
 

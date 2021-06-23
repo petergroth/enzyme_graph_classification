@@ -75,7 +75,8 @@ def extract_graphs(args):
             )
             graph_edges += edges_in_graph
 
-            write_graph(args.output_dir, graph_no, graph_attributes, graph_edges)
+            write_graph(
+                args.output_dir, graph_no, graph_attributes, graph_edges)
 
             # Start current graph
             graph_no += 1
@@ -87,7 +88,8 @@ def extract_graphs(args):
             graph_edges = first_edge_in_next_graph
 
     # Finalize last graph
-    edges_in_graph, first_edge_in_next_graph = get_edges(args, last_node_in_graph)
+    edges_in_graph, first_edge_in_next_graph = get_edges(
+        args, last_node_in_graph)
     graph_edges += edges_in_graph
 
     write_graph(args.output_dir, graph_no, graph_attributes, graph_edges)

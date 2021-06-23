@@ -46,7 +46,9 @@ if __name__ == "__main__":
     # Save resulting model and register
     os.makedirs("./outputs", exist_ok=True)
     run.download_file(
-        name="outputs/" + model_name, output_file_path="./outputs/" + model_name
+        name="outputs/" + model_name,
+        output_file_path="./outputs/" + model_name
     )
 
-    run.register_model(model_path="outputs/" + model_name, model_name=model_name)
+    run.register_model(
+        model_path="outputs/" + model_name, model_name=model_name)

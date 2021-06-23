@@ -15,8 +15,10 @@ def parser(lightning_class, data_class, model_class):
     parser = argparse.ArgumentParser()
 
     # Progam level args
-    parser.add_argument("--wandb_project", default="enzymes-test", type=str)
-    parser.add_argument("--wandb_entity", default="mlops_enzyme_graph_classification")
+    parser.add_argument(
+        "--wandb_project", default="enzymes-test", type=str)
+    parser.add_argument(
+        "--wandb_entity", default="mlops_enzyme_graph_classification")
     parser.add_argument(
         "--model_path", default=project_dir + "/models/model.pth", type=str
     )
@@ -59,7 +61,8 @@ def setup(args):
     }
     model = GNN(**model_kwargs)
 
-    classifier = GraphClassifier(model, **GraphClassifier.from_argparse_args(args))
+    classifier = GraphClassifier(
+        model, **GraphClassifier.from_argparse_args(args))
     wandb_logger.watch(classifier)
 
     # Trainer
@@ -87,7 +90,8 @@ def main():
     dm, classifier, trainer, model_kwargs = setup(args)
     dm, classifier, trainer = train(dm, classifier, trainer)
     torch.save(
-        {"model_kwargs": model_kwargs, "state_dict": classifier.model.state_dict()},
+        {"model_kwargs": model_kwargs,
+         "state_dict": classifier.model.state_dict()},
         args.model_path,
     )
 
@@ -100,7 +104,8 @@ def main():
 
         # trainer.save_checkpoint(model_file)
         torch.save(
-            {"model_kwargs": model_kwargs, "state_dict": classifier.model.state_dict()},
+            {"model_kwargs": model_kwargs,
+             "state_dict": classifier.model.state_dict()},
             model_file,
         )
 
