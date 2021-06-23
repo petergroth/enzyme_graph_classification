@@ -5,7 +5,8 @@ import requests
 import torch
 from numpy import genfromtxt
 from torch_geometric.transforms import NormalizeFeatures
-
+from torch.nn.functional import softmax
+import sys
 
 def parser():
     parser = argparse.ArgumentParser()
@@ -26,6 +27,8 @@ def load_graph_data(edge_table_file, node_attributes_file, normalize=True):
         edge_table = genfromtxt(edge_table_file, delimiter=",")
         # Index nodes from 0 and tranpose (size [2, num_edges])
         edge_table = (edge_table - edge_table.min()).T
+        # Switch rows
+        edge_table[[0, 1], :] = edge_table[[1, 0], :]
 
     with node_attributes_file:
         node_attributes = genfromtxt(node_attributes_file, delimiter=",")
@@ -45,7 +48,7 @@ def load_graph_data(edge_table_file, node_attributes_file, normalize=True):
 def main():
     args = parser()
     node_attributes, edge_table, batch = load_graph_data(
-        args.edge_table_file, args.node_attributes_file
+        args.edge_table_file, args.node_attributes_file, normalize=False
     )
 
     # Convert the array to a serializable list in a JSON document
@@ -57,9 +60,13 @@ def main():
     headers = {"Content-Type": "application/json"}
 
     predictions = requests.post(args.azure_endpoint, input_json, headers=headers)
-    predicted_classes = json.loads(predictions.json())
-
-    print(predicted_classes)
+    logits = json.loads(predictions.json())
+    probs = softmax(torch.Tensor(logits), dim=0)
+    label = torch.argmax(probs) + 1
+    
+    print(
+        f'Logits: {logits}\nProbabilities: {probs.tolist()}\nLabel: {label}',
+        file=sys.stdout)
 
 
 if __name__ == "__main__":
