@@ -35,6 +35,7 @@ GNN:
 ```
  
 ## Predict
+Use `python3 src/models/predict_model.py` to do inference with a pre-trained model. The script accepts the arguments `edge_table_file` and `node_attributes_file` that defines a graph and an optional argument `--model_path` that specifies the path of a pre-trained model (defaults to 'project_dir/models/model.pth'). The script outputs the predicted logits, probabilities and class.
 
 ## Microsoft Azure Machine Learning
 
