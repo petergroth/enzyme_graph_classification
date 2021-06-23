@@ -3,11 +3,11 @@ enzyme_graph_classification
 
 Project for the Machine Learning Operations course at DTU (June 2021)
 
-**Train**
+## Train
 
-**Predict**
+## Predict
 
-**Azure**
+## Azure
 
 Project Organization
 ------------
