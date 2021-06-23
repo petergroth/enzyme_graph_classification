@@ -55,12 +55,14 @@ def test(dm, classifier, trainer):
     return dm, classifier, trainer
 
 
-@hydra.main(config_path=project_dir + "/conf", config_name="default_config.yaml")
+@hydra.main(
+    config_path=project_dir + "/conf", config_name="default_config.yaml")
 def main(cfg: DictConfig):
     dm, classifier, trainer, model_kwargs = setup(cfg)
     dm, classifier, trainer = train(dm, classifier, trainer)
     torch.save(
-        {"model_kwargs": model_kwargs, "state_dict": classifier.model.state_dict()},
+        {"model_kwargs": model_kwargs,
+         "state_dict": classifier.model.state_dict()},
         project_dir + cfg.train.misc.model_path,
     )
 
@@ -72,7 +74,8 @@ def main(cfg: DictConfig):
         os.makedirs("outputs", exist_ok=True)
 
         torch.save(
-            {"model_kwargs": model_kwargs, "state_dict": classifier.model.state_dict()},
+            {"model_kwargs": model_kwargs,
+             "state_dict": classifier.model.state_dict()},
             model_file,
         )
 

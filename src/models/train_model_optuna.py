@@ -15,8 +15,10 @@ def parser(data_class):
     parser = argparse.ArgumentParser()
 
     # Progam level args
-    parser.add_argument("--wandb_project", default="enzymes-optuna", type=str)
-    parser.add_argument("--wandb_entity", default="mlops_enzyme_graph_classification")
+    parser.add_argument(
+        "--wandb_project", default="enzymes-optuna", type=str)
+    parser.add_argument(
+        "--wandb_entity", default="mlops_enzyme_graph_classification")
 
     # Optimization args
     parser.add_argument("--n_startup_trials", default=5, type=int)
@@ -41,16 +43,19 @@ def parser(data_class):
 
 def suggest_model(trial: optuna.trial.Trial) -> dict:
 
-    conv_channels = trial.suggest_categorical("conv_channels", [32, 64, 128, 256])
+    conv_channels = trial.suggest_categorical(
+        "conv_channels", [32, 64, 128, 256])
 
     fc_size = trial.suggest_categorical("fc_size", [32, 64, 128, 256])
 
     global_pooling = trial.suggest_categorical(
-        "global_pooling", ["global_mean_pool", "global_add_pool", "global_max_pool"]
+        "global_pooling",
+        ["global_mean_pool", "global_add_pool", "global_max_pool"]
     )
 
     activation = trial.suggest_categorical(
-        "activation", ["nn.ReLU", "nn.Tanh", "nn.RReLU", "nn.LeakyReLU", "nn.ELU"]
+        "activation",
+        ["nn.ReLU", "nn.Tanh", "nn.RReLU", "nn.LeakyReLU", "nn.ELU"]
     )
 
     dropout = trial.suggest_float("dropout", 0, 0.5)
@@ -90,7 +95,8 @@ class Objective(object):
         )
 
         # Data
-        dm = EnzymesDataModule(**EnzymesDataModule.from_argparse_args(self.args))
+        dm = EnzymesDataModule(
+            **EnzymesDataModule.from_argparse_args(self.args))
         dm.prepare_data()
 
         # Model
@@ -133,10 +139,12 @@ def main():
     args = parser(EnzymesDataModule)
 
     pruner = optuna.pruners.MedianPruner(
-        n_startup_trials=args.n_startup_trials, n_warmup_steps=args.n_warmup_steps
+        n_startup_trials=args.n_startup_trials,
+        n_warmup_steps=args.n_warmup_steps
     )
     study = optuna.create_study(direction="maximize", pruner=pruner)
-    study.optimize(Objective(args), n_trials=args.n_trials, timeout=args.timeout)
+    study.optimize(
+        Objective(args), n_trials=args.n_trials, timeout=args.timeout)
 
     # Print stats
     print("Number of finished trials: {}".format(len(study.trials)))
