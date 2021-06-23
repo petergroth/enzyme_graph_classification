@@ -61,6 +61,7 @@ def main():
     headers = {"Content-Type": "application/json"}
 
     predictions = requests.post(args.azure_endpoint, input_json, headers=headers)
+
     logits = json.loads(predictions.json())
     probs = softmax(torch.Tensor(logits), dim=0)
     label = torch.argmax(probs) + 1
@@ -69,6 +70,7 @@ def main():
         f"Logits: {logits}\nProbabilities: {probs.tolist()}\nLabel: {label}",
         file=sys.stdout,
     )
+
 
 
 if __name__ == "__main__":
