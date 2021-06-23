@@ -131,6 +131,7 @@ dmypy.json
 # PyCharm
 .idea/
 
+# Manual additions
 wandb/
-
 azure_deployment/wandb_api_key.py
+outputs/

@@ -2,24 +2,31 @@
 git+https://github.com/petergroth/enzyme_graph_classification@main#egg=src
 
 # external requirements
-click
-Sphinx
-coverage
-awscli
-flake8
+click==8.0.1
+coverage==5.5
+flake8==3.9.2
+hydra_core==1.1.0
+joblib==0.16.0
+numpy==1.20.3
+optuna==2.8.0
+pathlib2==2.3.5
 python-dotenv>=0.5.1
+pytorch-lightning==1.4.0dev
+Sphinx==4.0.2
 torch==1.8.1
-numpy
-torchmetrics
-pytorch-lightning
-wandb
-joblib
-torch-scatter
-torch-cluster
-torch-sparse
-torch-spline-conv
-torch-geometric
-optuna
+torch-cluster==1.5.9
+torch-geometric==1.7.0
+torch-scatter==2.0.7
+torch-sparse==0.6.9
+torch-spline-conv==1.2.1
+torchmetrics==0.3.2
 
-# backwards compatibility
-pathlib2
+# NB: No versioning as this will conflict with azureml-defaults which is required for deployment via Azure ML
+wandb
+
+
+
+
+
+
+

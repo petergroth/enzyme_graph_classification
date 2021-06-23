@@ -6,7 +6,7 @@ import torch
 from numpy import genfromtxt
 from torch_geometric.transforms import NormalizeFeatures
 from torch.nn.functional import softmax
-import sys
+
 
 def parser():
     parser = argparse.ArgumentParser()
@@ -60,6 +60,7 @@ def main():
     headers = {"Content-Type": "application/json"}
 
     predictions = requests.post(args.azure_endpoint, input_json, headers=headers)
+
     logits = json.loads(predictions.json())
     probs = softmax(torch.Tensor(logits), dim=0)
     label = torch.argmax(probs) + 1
@@ -67,6 +68,7 @@ def main():
     print(
         f'Logits: {logits}\nProbabilities: {probs.tolist()}\nLabel: {label}',
         file=sys.stdout)
+
 
 
 if __name__ == "__main__":
