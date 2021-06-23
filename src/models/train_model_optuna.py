@@ -15,23 +15,21 @@ def parser(data_class):
     parser = argparse.ArgumentParser()
 
     # Progam level args
-    parser.add_argument(
-        '--wandb_project', default='enzymes-optuna', type=str)
-    parser.add_argument(
-        '--wandb_entity', default='mlops_enzyme_graph_classification')
-    
+    parser.add_argument("--wandb_project", default="enzymes-optuna", type=str)
+    parser.add_argument("--wandb_entity", default="mlops_enzyme_graph_classification")
+
     # Optimization args
-    parser.add_argument('--n_startup_trials', default=5, type=int)
-    parser.add_argument('--n_warmup_steps', default=0, type=int)
-    parser.add_argument('--n_trials', default=100, type=int)
-    parser.add_argument('--timeout', default=600, type=float)
+    parser.add_argument("--n_startup_trials", default=5, type=int)
+    parser.add_argument("--n_warmup_steps", default=0, type=int)
+    parser.add_argument("--n_trials", default=100, type=int)
+    parser.add_argument("--timeout", default=600, type=float)
 
     # Training level args
     parser = pl.Trainer.add_argparse_args(parser)
 
     # Early stopping
-    parser.add_argument('--patience', type=int, default=50)
-    parser.add_argument('--min_delta', type=float, default=0)
+    parser.add_argument("--patience", type=int, default=50)
+    parser.add_argument("--min_delta", type=float, default=0)
 
     # Data level args
     parser = data_class.add_model_specific_args(parser)
@@ -43,22 +41,19 @@ def parser(data_class):
 
 def suggest_model(trial: optuna.trial.Trial) -> dict:
 
-    conv_channels = trial.suggest_categorical(
-        'conv_channels', [32, 64, 128, 256])
-    
-    fc_size = trial.suggest_categorical('fc_size', [32, 64, 128, 256])
+    conv_channels = trial.suggest_categorical("conv_channels", [32, 64, 128, 256])
+
+    fc_size = trial.suggest_categorical("fc_size", [32, 64, 128, 256])
 
     global_pooling = trial.suggest_categorical(
-        "global_pooling",
-        ["global_mean_pool", "global_add_pool", "global_max_pool"]
+        "global_pooling", ["global_mean_pool", "global_add_pool", "global_max_pool"]
     )
 
     activation = trial.suggest_categorical(
-        'activation',
-        ["nn.ReLU", "nn.Tanh", "nn.RReLU", "nn.LeakyReLU", "nn.ELU"])
+        "activation", ["nn.ReLU", "nn.Tanh", "nn.RReLU", "nn.LeakyReLU", "nn.ELU"]
+    )
 
-    dropout = trial.suggest_float('dropout', 0, 0.5)
-
+    dropout = trial.suggest_float("dropout", 0, 0.5)
 
     model_kwargs = {
         "conv_channels": conv_channels,
@@ -77,9 +72,8 @@ class Objective(object):
 
     def __call__(self, trial):
         # Hyper parameters
-        batch_size = trial.suggest_categorical(
-            'batch_size', [8, 16, 32])
-        lr = trial.suggest_float('lr', 1e-5, 1e-1)
+        batch_size = trial.suggest_categorical("batch_size", [8, 16, 32])
+        lr = trial.suggest_float("lr", 1e-5, 1e-1)
         model_kwargs = suggest_model(trial)
 
         self.args.batch_size = batch_size
@@ -108,10 +102,11 @@ class Objective(object):
 
         # Early stopping
         early_stop_callback = EarlyStopping(
-            monitor='val_Accuracy',
+            monitor="val_Accuracy",
             min_delta=self.args.min_delta,
             patience=self.args.patience,
-            mode='max')
+            mode="max",
+        )
 
         # Pruning
         pruning_callback = PyTorchLightningPruningCallback(
@@ -122,7 +117,7 @@ class Objective(object):
         trainer = pl.Trainer.from_argparse_args(
             self.args,
             callbacks=[pruning_callback, early_stop_callback],
-            logger=wandb_logger
+            logger=wandb_logger,
         )
 
         dm.setup(stage="fit")
@@ -138,10 +133,10 @@ def main():
     args = parser(EnzymesDataModule)
 
     pruner = optuna.pruners.MedianPruner(
-        n_startup_trials=args.n_startup_trials, n_warmup_steps=args.n_warmup_steps)
+        n_startup_trials=args.n_startup_trials, n_warmup_steps=args.n_warmup_steps
+    )
     study = optuna.create_study(direction="maximize", pruner=pruner)
     study.optimize(Objective(args), n_trials=args.n_trials, timeout=args.timeout)
-
 
     # Print stats
     print("Number of finished trials: {}".format(len(study.trials)))

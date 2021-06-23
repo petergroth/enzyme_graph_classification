@@ -8,7 +8,7 @@ from torch_geometric.nn import (
     global_max_pool,
     global_mean_pool,
 )
-from torchmetrics import Accuracy, MetricCollection, Precision, Recall
+from torchmetrics import Accuracy, MetricCollection
 
 
 class GNN(nn.Module):
@@ -46,11 +46,9 @@ class GNN(nn.Module):
             normalize=True,
         )
         self.fc1 = nn.Linear(
-            in_features=self.conv_channels, out_features=self.fc_size
-        )
+            in_features=self.conv_channels, out_features=self.fc_size)
         self.fc2 = nn.Linear(
-            in_features=self.fc_size, out_features=self.n_classes
-        )
+            in_features=self.fc_size, out_features=self.n_classes)
 
         if global_pooling not in [
             "global_mean_pool",
@@ -58,26 +56,33 @@ class GNN(nn.Module):
             "global_max_pool",
         ]:
             raise ValueError(
-                "Invalid global pooling. Must be one of ['global_mean_pool', 'global_add_pool', "
-                "'global_max_pool']."
+                "Invalid global pooling. Must be one of {'global_mean_pool', "
+                "'global_add_pool', 'global_max_pool'}."
             )
         self.global_pooling = eval(global_pooling)
         self.dropout = nn.Dropout(p=self.dropout)
 
-    def forward(self, x: torch.Tensor, edge_index: torch.Tensor, batch: torch.Tensor):
+    def forward(
+        self,
+        x: torch.Tensor,
+        edge_index: torch.Tensor,
+        batch: torch.Tensor
+    ):
         # Check input dimension
         if x.shape[1] != self.n_node_features:
             raise ValueError(
-                f"Number of node features of input x is correct. Expected {self.n_node_features} but got {x.shape[1]}."
+                f"Number of node features of input x is correct. "
+                f"Expected {self.n_node_features} but got {x.shape[1]}."
             )
         if batch.shape[0] != x.shape[0]:
             raise ValueError(
-                f"Number of nodes in x is incompatible with number of nodes in batch."
+                "Number of nodes in x is incompatible with number of nodes "
+                "in batch."
             )
 
         # Perform message passing
-        x = self.activation(self.gcn1(x, edge_index))  # [nodes_in_batch, hidden_size]
-        x = self.activation(self.gcn2(x, edge_index))  # [nodes_in_batch, hidden_size]
+        x = self.activation(self.gcn1(x, edge_index))  # [nodes_batch, hidden]
+        x = self.activation(self.gcn2(x, edge_index))  # [nodes_batch, hidden]
         x = self.gcn3(x, edge_index)  # [nodes_in_batch, hidden_size]
         # Apply global pooling layer
         embed = self.global_pooling(x, batch)  # [batch_size, hidden_size]
@@ -101,7 +106,8 @@ class GNN(nn.Module):
         )
         parser.add_argument(
             "--activation",
-            choices=["nn.ReLU", "nn.Tanh", "nn.RReLU", "nn.LeakyReLU", "nn.ELU"],
+            choices=[
+                "nn.ReLU", "nn.Tanh", "nn.RReLU", "nn.LeakyReLU", "nn.ELU"],
             default="nn.LeakyReLU",
         )
         parser.add_argument("--dropout", type=float, default=0.15)
@@ -114,7 +120,8 @@ class GNN(nn.Module):
         args = {
             "conv_channels": ns_dict.get("conv_channels", 32),
             "fc_size": ns_dict.get("fc_size", 32),
-            "global_pooling": ns_dict.get("global_pooling", "global_mean_pooling"),
+            "global_pooling": ns_dict.get(
+                "global_pooling", "global_mean_pooling"),
             "activation": ns_dict.get("activation", "nn.LeakyReLU"),
             "dropout": ns_dict.get("dropout", 0.15),
         }
