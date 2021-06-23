@@ -96,7 +96,7 @@ class GNN(nn.Module):
 
     @staticmethod
     def add_model_specific_args(parent_parser):
-        parser = parent_parser.add_argument_group("ConvNet")
+        parser = parent_parser.add_argument_group("GNN")
         parser.add_argument("--conv_channels", type=int, default=32)
         parser.add_argument("--fc_size", type=int, default=32)
         parser.add_argument(
@@ -195,7 +195,7 @@ class GraphClassifier(pl.LightningModule):
 
     @staticmethod
     def add_model_specific_args(parent_parser):
-        parser = parent_parser.add_argument_group("ConvNet")
+        parser = parent_parser.add_argument_group("GraphClassifier")
         parser.add_argument("--lr", type=float, default=3e-4)
 
         return parent_parser
