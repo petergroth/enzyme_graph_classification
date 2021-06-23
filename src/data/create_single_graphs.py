@@ -1,6 +1,5 @@
 import argparse
 
-
 def parser():
     parser = argparse.ArgumentParser()
     parser.add_argument("edge_table_file", type=argparse.FileType("r"))
@@ -26,14 +25,19 @@ def write_graph(output_dir, graph_no, graph_attributes, graph_edges):
 def get_edges(args, last_node):
     graph_edges = ""
 
-    for line in args.edge_table_file:
-        edge = line
-        node_1, node_2 = line.split(", ")
+    line = args.edge_table_file.readline()
+    edge = line
+    node_1, node_2 = line.strip().split(", ")
 
-        if int(node_1) <= last_node and int(node_2) <= last_node:
-            graph_edges += edge
+    while int(node_1) <= last_node and int(node_2) <= last_node:
+        graph_edges += edge
+
+        line = args.edge_table_file.readline()
+        edge = line
+        if line.strip() != '':
+            node_1, node_2 = line.strip().split(", ")
         else:
-            break
+            node_1, node_2 = last_node + 1, last_node + 1
 
     return graph_edges, edge
 
@@ -64,15 +68,14 @@ def extract_graphs(args):
             )
 
         else:
-            # Finalize current graph
+            # Finalize previous graph
             edges_in_graph, first_edge_in_next_graph = get_edges(
-                args, last_node_in_graph
-            )
+                args, last_node_in_graph)
             graph_edges += edges_in_graph
 
             write_graph(args.output_dir, graph_no, graph_attributes, graph_edges)
 
-            # Start next graph
+            # Start current graph
             graph_no += 1
             last_node_in_graph += 1
             graph_attributes = args.node_attributes_file.readline().strip()
