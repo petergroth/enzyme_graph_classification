@@ -1,7 +1,9 @@
 import argparse
+import sys
 
 import torch
 from numpy import genfromtxt
+from torch.nn.functional import softmax
 from torch_geometric.transforms import NormalizeFeatures
 
 from src import project_dir
@@ -24,11 +26,13 @@ def parser():
     return args
 
 
-def load_graph_data(edge_table_file, node_attributes_file, normalize=True):
+def load_graph_data(edge_table_file, node_attributes_file, normalize=False):
     with edge_table_file:
         edge_table = genfromtxt(edge_table_file, delimiter=",")
         # Index nodes from 0 and tranpose (size [2, num_edges])
         edge_table = (edge_table - edge_table.min()).T
+        # Switch rows
+        edge_table[[0, 1], :] = edge_table[[1, 0], :]
 
     with node_attributes_file:
         node_attributes = genfromtxt(node_attributes_file, delimiter=",")
@@ -55,8 +59,14 @@ def main():
     model.load_state_dict(model_dict["state_dict"])
     model.eval()
 
-    pred = model.forward(x, edge_index, batch).detach().squeeze()
-    print(pred)
+    logits = model.forward(x, edge_index, batch).detach().squeeze()
+    probs = softmax(logits, dim=0)
+    label = torch.argmax(probs) + 1
+
+    print(
+        f"Logits: {logits}\nProbabilities: {probs.tolist()}\nLabel: {label}",
+        file=sys.stdout,
+    )
 
 
 if __name__ == "__main__":
