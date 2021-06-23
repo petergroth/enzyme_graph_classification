@@ -13,10 +13,6 @@ from src.models.model import GNN, GraphClassifier
 
 
 def setup(cfg):
-    # Setup seed
-    if cfg.train.misc.seed:
-        torch.manual_seed(cfg.train.misc.seed)
-
     # Logger
     wandb_logger = WandbLogger(
         project=cfg.train.misc.wandb_project,

@@ -5,7 +5,7 @@ import requests
 import torch
 from numpy import genfromtxt
 from torch_geometric.transforms import NormalizeFeatures
-
+from torch.nn.functional import softmax
 
 def parser():
     parser = argparse.ArgumentParser()
@@ -59,7 +59,7 @@ def main():
     predictions = requests.post(args.azure_endpoint, input_json, headers=headers)
     predicted_classes = json.loads(predictions.json())
 
-    print(predicted_classes)
+    print(softmax(torch.Tensor(predicted_classes), dim=-1).tolist())
 
 
 if __name__ == "__main__":
