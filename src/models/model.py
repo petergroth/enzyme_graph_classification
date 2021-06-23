@@ -46,10 +46,10 @@ class GNN(nn.Module):
         self.fc2 = nn.Linear(
             in_features=self.fc_size, out_features=self.n_classes)
 
-        if eval(global_pooling) not in [
-            global_mean_pool,
-            global_add_pool,
-            global_max_pool,
+        if global_pooling not in [
+            global_mean_pool.__name__,
+            global_add_pool.__name__,
+            global_max_pool.__name__,
         ]:
             raise ValueError(
                 "Invalid global pooling. Must be one of {'global_mean_pool', "
