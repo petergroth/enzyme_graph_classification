@@ -7,7 +7,46 @@ Project for the Machine Learning Operations course at DTU (June 2021)
 
 ## Predict
 
-## Azure
+## Microsoft Azure Machine Learning
+
+The project has succesfully been implemented via Microsoft Azure Machine Learning (Azure ML). This allows for both training and deployment.
+
+### Usage:
+The repository is cloned into an Azure workspace via `git clone`. 
+
+#### Environment creation
+To successfully train and deploy a model, an environment has to be created. This is done via `azure_deployment/create_env.py` which takes the argument `--train` or `--deploy` to create environments for training and deployment, respectively. (These cannot be identical due to a dependency issue, where the deployment requires the `azureml-defaults` package to be installed. This requires a specific version of  the `configparser` module. The chosen logging framework, `wandb`, requires a conflicting version of `configparser` which is newer than the required version for `azureml-defaults`.)  
+The created environments will be named `EGC_train` and `EGC_deploy`.
+
+Example usage (from Azure):
+`python azure_deployment/create_env.py --train`
+
+#### Training
+A model is trained via `azure_deployment/train_and_register.py`, where the model name and Azure ML compute targets have to be defined in the script as well as the hyperparemeters for the model. After training, the model is registered to the Azure ML workspace. 
+Note: in order to successfully log the training run via `wandb`, the API-key has to be defined. To do this, create a script named `azure_deployment/wandb_api_key.py`, in which the Python variable `WANDB_API_KEY` is defined as a string equal to the users API-key.
+
+Example usage (from Azure):
+`python azure_deployment/train_and_register.py`
+
+#### Deployment
+The trained and registered model is deployed via `azure_deployment/deploy_model.py`, where the model and service names have to be specified manually. The deployment uses the scoring script `azure_deployment/azure_scoring_script.py`.
+
+Example usage (from Azure):
+`python azure_deployment/deploy_model.py`
+
+#### Inference 
+The deployed model can be used for prediction via `src/models/predict_with_azure_service.py`. This requires 3 arguments. The two first specifies the `edge_table_file` and the `node_attributes_file`, while the third argument is the provided `scoring_uri`, which is printed after successful deployment with Azure. Examples of the two data files can be found in `data/processed/single_graphs`.
+
+Example usage (locally): 
+`python src/model/predict_with_azure_service.py data/processed/single_graphs/graph_100_edges.txt data/processed/single_graphs/graph_100_node_attributes.txt scoring_uri` 
+which prints the logits, probabilites, and label of the prediction.
+
+
+#### Hyperparameter optimization
+Optuna can be used to optimize the hyperparameter selection. To do this, the `azure_deployment/optimize_hparams.py` script can be used. The Optuna details are specified in the script, which submits the `src/models/train_model_optuna.py` script to the specified Azure ML compute target. The optimization can be tracked directly via `wandb`.
+
+Example usage (from Azure):
+`python azure_deployment/optimize_hparams.py`
 
 Project Organization
 ------------
