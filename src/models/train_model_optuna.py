@@ -15,7 +15,7 @@ def parser(data_class):
 
     # Progam level args
     parser.add_argument(
-        '--wandb_project', default='enzymes-test-optuna', type=str)
+        '--wandb_project', default='enzymes-optuna', type=str)
     parser.add_argument(
         '--wandb_entity', default='mlops_enzyme_graph_classification')
     
