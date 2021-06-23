@@ -4,7 +4,35 @@ enzyme_graph_classification
 Project for the Machine Learning Operations course at DTU (June 2021)
 
 ## Train
+Use `python3 src/models/train_model.py` to train the `GNN` model if you prefer to specify optional model and training arguments via the command line (uses `argparse` for argument parsing). 
 
+Use `python3 src/models/train_model_hydra.py` to train the `GNN` model if you prefer to specify optional model and training arguments via config files (uses `Hydra` for argument parsing).
+
+ Use `python3 src/models/train_model_optuna.py` to train the `GNN` model and optimize the hyper-parameters of the model (learning rate, batch size, activation function, global pooling method, dropout rate, no. of convolutional channels and size of fully connected layer) with `Optuna`.
+ 
+All training scripts logs training and validation statistics to [Weights & Biases](http://wandb.ai/).  Specify  [Weights & Biases](http://wandb.ai/) project and entity with `--wandb_project` and `--wandb_entity`. Trained models gets saved to `--model_path`.
+
+Optional training arguments are those accepted by [PyTorch Lightning](https://www.pytorchlightning.ai/)'s `Trainer` class ([link](https://pytorch-lightning.readthedocs.io/en/latest/common/trainer.html)). 
+
+Optional model and data args arguments are:
+```
+GraphClassifier:
+  --lr LR
+
+EnzymesDataModule:
+  --data_dir DATA_DIR
+  --batch_size BATCH_SIZE
+  --num_workers NUM_WORKERS
+  --splits SPLITS SPLITS SPLITS
+  --seed SEED
+
+GNN:
+  --conv_channels CONV_CHANNELS
+  --fc_size FC_SIZE
+  --global_pooling {global_mean_pool,global_add_pool,global_max_pool}
+  --activation {nn.ReLU,nn.Tanh,nn.RReLU,nn.LeakyReLU,nn.ELU}
+  --dropout DROPOUT```
+ 
 ## Predict
 
 ## Microsoft Azure Machine Learning
