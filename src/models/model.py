@@ -2,12 +2,8 @@ import pytorch_lightning as pl
 import torch
 from torch import nn
 from torch.nn import functional as F
-from torch_geometric.nn import (
-    GCNConv,
-    global_add_pool,
-    global_max_pool,
-    global_mean_pool,
-)
+from torch_geometric.nn import (GCNConv, global_add_pool, global_max_pool,
+                                global_mean_pool)
 from torchmetrics import Accuracy, MetricCollection
 
 
