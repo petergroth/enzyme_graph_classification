@@ -31,7 +31,8 @@ GNN:
   --fc_size FC_SIZE
   --global_pooling {global_mean_pool,global_add_pool,global_max_pool}
   --activation {nn.ReLU,nn.Tanh,nn.RReLU,nn.LeakyReLU,nn.ELU}
-  --dropout DROPOUT```
+  --dropout DROPOUT
+```
  
 ## Predict
 
