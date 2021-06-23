@@ -1,5 +1,6 @@
 import argparse
 
+
 def parser():
     parser = argparse.ArgumentParser()
     parser.add_argument("edge_table_file", type=argparse.FileType("r"))
@@ -34,7 +35,7 @@ def get_edges(args, last_node):
 
         line = args.edge_table_file.readline()
         edge = line
-        if line.strip() != '':
+        if line.strip() != "":
             node_1, node_2 = line.strip().split(", ")
         else:
             node_1, node_2 = last_node + 1, last_node + 1
@@ -70,7 +71,8 @@ def extract_graphs(args):
         else:
             # Finalize previous graph
             edges_in_graph, first_edge_in_next_graph = get_edges(
-                args, last_node_in_graph)
+                args, last_node_in_graph
+            )
             graph_edges += edges_in_graph
 
             write_graph(args.output_dir, graph_no, graph_attributes, graph_edges)

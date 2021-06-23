@@ -1,7 +1,6 @@
-import azureml.core
 from azureml.core import Environment, Workspace
 from azureml.core.model import InferenceConfig, Model
-from azureml.core.webservice import AciWebservice, LocalWebservice
+from azureml.core.webservice import AciWebservice
 from wandb_api_key import WANDB_API_KEY
 
 # Deployment names
@@ -36,5 +35,5 @@ service = Model.deploy(
 
 service.wait_for_deployment(show_output=True)
 
-print(f'{service.scoring_uri = }')
-print(f'{service.state = }')
+print(f"{service.scoring_uri}")
+print(f"{service.state}")

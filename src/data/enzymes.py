@@ -57,8 +57,8 @@ class EnzymesDataModule(pl.LightningDataModule):
 
         split_idx = np.cumsum([int(len(dataset) * prop) for prop in self.splits])
         self.data_train = dataset[: split_idx[0]]
-        self.data_val = dataset[split_idx[0] : split_idx[1]]
-        self.data_test = dataset[split_idx[1] :]
+        self.data_val = dataset[split_idx[0]: split_idx[1]]
+        self.data_test = dataset[split_idx[1]:]
         torch.manual_seed(initial_seed)
 
     def train_dataloader(self):

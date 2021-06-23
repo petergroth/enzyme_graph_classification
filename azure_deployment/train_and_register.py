@@ -1,9 +1,7 @@
 # run-azure.py
 import os
 
-from azureml.core import Environment, Experiment, Model, ScriptRunConfig, Workspace
-from azureml.core.conda_dependencies import CondaDependencies
-from azureml.core.run import Run
+from azureml.core import Environment, Experiment, ScriptRunConfig, Workspace
 from wandb_api_key import WANDB_API_KEY
 
 if __name__ == "__main__":
@@ -29,14 +27,13 @@ if __name__ == "__main__":
             "--conv_channels",
             64,
             "--fc_size",
-            64
+            64,
             "--batch_size",
             16,
             "--global_pooling",
             "global_max_pool",
             "--activation",
-            "nn.ReLU"
-            "-azure",
+            "nn.ReLU" "-azure",
         ],
         environment=env,
         compute_target=compute_target,

@@ -1,12 +1,13 @@
 import argparse
 import json
+import sys
 
 import requests
 import torch
 from numpy import genfromtxt
-from torch_geometric.transforms import NormalizeFeatures
 from torch.nn.functional import softmax
-import sys
+from torch_geometric.transforms import NormalizeFeatures
+
 
 def parser():
     parser = argparse.ArgumentParser()
@@ -63,10 +64,11 @@ def main():
     logits = json.loads(predictions.json())
     probs = softmax(torch.Tensor(logits), dim=0)
     label = torch.argmax(probs) + 1
-    
+
     print(
-        f'Logits: {logits}\nProbabilities: {probs.tolist()}\nLabel: {label}',
-        file=sys.stdout)
+        f"Logits: {logits}\nProbabilities: {probs.tolist()}\nLabel: {label}",
+        file=sys.stdout,
+    )
 
 
 if __name__ == "__main__":

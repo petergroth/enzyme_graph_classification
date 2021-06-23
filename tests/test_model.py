@@ -1,6 +1,6 @@
 import pytest
 import torch
-from torch_geometric.data import Batch, Data
+from torch_geometric.data import Batch
 
 from src.models.model import GNN, GraphClassifier
 
@@ -8,7 +8,7 @@ from src.models.model import GNN, GraphClassifier
 def test_initialization_pooling():
     with pytest.raises(ValueError):
         # Try with invalid pooling
-        model = GNN(10, 10, 32, global_pooling="global_mean_pol")
+        GNN(10, 10, 32, global_pooling="global_mean_pol")
 
 
 def test_forward_pass_batch_size():
